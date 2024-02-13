@@ -11,7 +11,7 @@
 
 ## _Video Upload and Auto Bitrate Streaming Platform_
 
-| Video Upload and Storage | Video Processing | Task Management and Adaptive Streaming |
+| Video Upload and Storage | Video Transcoding and Segmentation | Client Interactions and Adaptive Streaming |
 | :--: | :--: | :--: |
 | **V1** | **V2** | **V3** |
 | Azriel Bachrach | Ephraim Crystal | Gadi Polster |

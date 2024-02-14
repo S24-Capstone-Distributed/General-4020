@@ -14,7 +14,7 @@ Our platform offers a robust video streaming solution designed for the efficient
    - [Tools & Technologies](./group-v1/technologies.md)
 
 2. **Video transcoding and segmentation** - _a scalable and efficient distributed system to prepare videos for adaptive bitrate streaming._
-   - Team Members: [Ephraim Crystal](mailto:ecrysta1@mail.yu.edu), [Yehudah Snow](mailto:lsnow@mail.yu.edu), [Yontan Reiter](mailto:yreiter@mail.yu.edu)
+   - Team Members: [Ephraim Crystal](mailto:ecrysta1@mail.yu.edu), [Lawrence Snow](mailto:lsnow@mail.yu.edu), [Yonatan Reiter](mailto:yreiter@mail.yu.edu)
    - [Overview](./group-v2/README.md)
    - [Scope and Use Cases](./group-v2/scope.md)
    - [Distributed System Challenges](./group-v2/challenges.md)

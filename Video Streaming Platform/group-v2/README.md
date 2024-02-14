@@ -1,6 +1,6 @@
 # Video transcoding and segmentation
 
-**Team Members:** [Ephraim Crystal](mailto:ecrysta1@mail.yu.edu), [Yehudah Snow](mailto:lsnow@mail.yu.edu), [Yontan Reiter](mailto:yreiter@mail.yu.edu)
+**Team Members:** [Ephraim Crystal](mailto:ecrysta1@mail.yu.edu), [Lawrence Snow](mailto:lsnow@mail.yu.edu), [Yonatan Reiter](mailto:yreiter@mail.yu.edu)
 
 ## Project Plan
 

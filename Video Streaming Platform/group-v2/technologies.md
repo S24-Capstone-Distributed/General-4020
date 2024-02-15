@@ -1,7 +1,7 @@
 # Technologies Used in the Project
 
 ## Java
-- **Reason for Use:** Extensive familiarity and expertise with Java within the team.
+- **Reason for Use:** Extensive familiarity and expertise with Java within the team in addition to Java's robust ecosystem and extensive libraries that offer a wealth of resources to expedite development tasks
 - **Considered Alternatives:** Python, due to its simplicity and suitability for AWS S3 interactions. However, lack of team expertise and potential longer development time led to the decision not to use it.
 
 ## JUnit and Maven

@@ -4,6 +4,10 @@
 - **Reason for Use:** Extensive familiarity and expertise with Java within the team in addition to Java's robust ecosystem and extensive libraries that offer a wealth of resources to expedite development tasks.
 - **Considered Alternatives:** Python, due to its simplicity and suitability for AWS S3 interactions. However, lack of team expertise and potential longer development time led to the decision not to use it.
 
+In our project, we opted to utilize Java as our primary programming language due to our team's extensive familiarity and expertise with it. Given the time constraints and the need for efficient progress, leveraging Java provided us with a streamlined development process, allowing us to focus on implementation rather than grappling with the learning curve of a new  or only semi-familiar language. Additionally, Java's robust ecosystem and extensive libraries offered a wealth of resources to expedite development tasks.
+
+We considered using Python, as in some ways it is simpler, especially in regard to pulling/pushing files to and from AWS S3, which is the storage service we are testing our system with. However, given that we don’t know Python as well, and it would’ve taken longer to write code in Python, we decided not to use it given the time constraints of this project.
+
 ## JUnit and Maven
 - **Reason for Use:** Robust and automated testing facilitated by JUnit, integrated with Maven for streamlined project setup and dependency management.
 - **Considered Alternatives:** None, as JUnit and Maven are widely adopted and well-suited for Java projects.

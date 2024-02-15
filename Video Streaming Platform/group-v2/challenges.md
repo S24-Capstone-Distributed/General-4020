@@ -41,14 +41,8 @@
 ### Load Balancing
 - Prioritize distribution of equal-sized segments of transcoding tasks to each available node.
 - Manage workload distribution among transcoder workers to prevent overload.
-- Refine load balancing algorithms in phase two to dynamically allocate tasks based on machine performance for optimal resource utilization.
-
-## Out of Scope Considerations
-
-- Network latency optimization
-- Advanced load balancing algorithms based on machine performance
 
 ## Phase Two Enhancements
 
-- Refinement of load balancing algorithms
-- Optimization of network latency
+- Network latency optimization. As long as the system works in a normal amount of time, that is good enough for now. In stage 2 we could work on optimizing the system and making it work even faster.
+- Advanced load balancing algorithms based on machine performance. For now it is enough to distribute an equal amount of work to each node. But it is likely that some nodes will be more powerful than others. So in stage 2 we would work on distributing work based on how much the nodes are being utilized.

@@ -63,3 +63,14 @@ Furthermore, the type of data we're storing, which essentially involves mapping 
 While alternatives like Apache Cassandra and HBase offer powerful features, their setup and management complexity, as well as the learning curve associated with them, would have posed challenges given our project's time constraints. Additionally, we are already using AWS S3 for testing purposes while awaiting database setup by another team due to its simplicity. Thus, by using DynamoDB, we maintain consistency within the AWS ecosystem, leveraging familiar tools and services to expedite development without introducing additional complexity associated with cross-cloud deployments.
 
 Overall, DynamoDB's simplicity, manageability, and alignment with our existing AWS experience make it the optimal choice for our logging infrastructure, enabling us to efficiently capture and analyze logs while meeting project deadlines.
+
+### File Transfer Approach in Kubernetes Pods
+
+- **Decision:** Utilize the local file system within the pod for file transfer between containers.
+- **Reasoning:**
+  - Faster performance, particularly for large files, by avoiding TCP overhead.
+  - Minimizes network latency, streamlines development process, and mitigates security concerns with proper permissions and access controls.
+- **Considered Alternatives:**
+  - TCP communication between containers within the pod, which could introduce additional network overhead and latency.
+
+In determining the approach for transferring files within our Kubernetes pods, we carefully weighed the options to optimize performance and efficiency. Ultimately, we decided to utilize the local file system within the pod for file transfer between containers. This decision was driven by several factors. First, transferring files via the local file system can offer faster performance, particularly for larger files, by avoiding the overhead of encoding and decoding data for transmission over TCP. Additionally, leveraging the local file system minimizes network latency, which will make file transfer times be shorter. Furthermore, using the local file system streamlines the development process by bypassing some of the overhead associated with container orchestration, such as scheduling and inter-container communication. 

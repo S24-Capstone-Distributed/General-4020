@@ -66,7 +66,7 @@ Overall, DynamoDB's simplicity, manageability, and alignment with our existing A
 
 ### File Transfer Approach in Kubernetes Pods
 
-- **Decision:** Utilize the local file system within the pod for file transfer between containers and not TCP.
+- **Decision:** Utilize the local file system within the pod for file transfer between containers.
 - **Reasoning:**
   - Faster performance, particularly for large files, by avoiding TCP overhead.
   - Minimizes network latency and streamlines development process.

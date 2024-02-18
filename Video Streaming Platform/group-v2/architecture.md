@@ -6,7 +6,7 @@ System architecture overview (see [here](workflow.md#workflow-diagram-for-the-st
 
 ## Components
 
-Video retrieval/pulling (see [here](workflow.md#workflow-diagram-for-puller-failure]) for how failure is handled):
+Video retrieval/pulling (see [here](workflow.md#workflow-diagram-for-puller-failure) for how failure is handled):
 
 ![VideoProcessing_RetrievalLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/f913f5d2-cf07-42c5-abd6-0b64985ff152)
 

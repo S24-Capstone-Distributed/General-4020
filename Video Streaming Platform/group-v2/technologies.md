@@ -17,16 +17,12 @@
 - **Considered Alternatives:** Other orchestration tools, but Kubernetes' extensive features and community support made it the preferred choice.
 
 ## RabbitMQ
-- **Reason for Use:** Reliable messaging system with support for various messaging patterns.
+- **Reason for Use:** Reliable messaging system, support for various messaging patterns, integration with Java, ease of use.
 - **Considered Alternatives:** Apache Kafka, but RabbitMQ's simplicity and seamless integration with Java favored its selection.
-
-In managing communication between our distributed components, we integrated RabbitMQ as our messaging system. RabbitMQ's reliability, flexibility, and support for various messaging patterns made it an ideal choice for our project. Its robust message queuing mechanism ensured reliable message delivery, even in the face of network failures or service outages. Additionally, RabbitMQ's seamless integration with Java and support for industry-standard protocols simplified integration with our existing infrastructure, offering a smooth and efficient messaging solution over alternatives. While RabbitMQ excels in scenarios requiring traditional message queuing patterns, such as task distribution and RPC-style communication, other technologies like Apache Kafka provide alternatives for scenarios where high throughput and real-time processing are paramount. However, RabbitMQ's simplicity, ease of integration with Java, and out-of-the-box support for various messaging patterns make it a preferred choice for our project, which prioritizes rapid development and ease of use. 
 
 ## h264 Codec
 - **Reason for Use:** Longevity, widespread device compatibility, extensive support, and ease of use.
 - **Considered Alternatives:** Newer codecs like VP9, but their relative novelty and limited device support posed potential risks.
-
-In our exploration of video processing, the complexities of adaptive bitrate streaming codecs have become a focal point. Anticipating challenges in developing the distributed aspect of our system, we've embraced a strategy of simplicity for the initial phases to minimize potential errors and streamline debugging. As part of this strategy, we deliberated on various codec options and ultimately opted to commence with the h264 codec, which is renowned for its longevity, widespread device compatibility, extensive support, and ease of use. While we also considered newer codecs like VP9, which may offer enhanced efficiency, their relative novelty and limited device support introduce potential risks. By prioritizing the tried-and-tested h264 codec, we mitigate these risks and establish a robust starting point for our project.
 
 ## HLS (HTTP Live Streaming)
 - **Reason for Use:** Simplicity in implementation and widespread native support across devices and platforms.

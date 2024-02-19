@@ -1,30 +1,20 @@
 # Technologies Used in the Project
 
 ## Java
-- **Reason for Use:** Extensive familiarity and expertise with Java within the team in addition to Java's robust ecosystem and extensive libraries that offer a wealth of resources to expedite development tasks.
-- **Considered Alternatives:** Python, due to its simplicity and suitability for AWS S3 interactions. However, lack of team expertise and potential longer development time led to the decision not to use it.
-
-In our project, we opted to utilize Java as our primary programming language due to our team's extensive familiarity and expertise with it. Given the time constraints and the need for efficient progress, leveraging Java provided us with a streamlined development process, allowing us to focus on implementation rather than grappling with the learning curve of a new  or only semi-familiar language. Additionally, Java's robust ecosystem and extensive libraries offered a wealth of resources to expedite development tasks.
-
-We considered using Python, as in some ways it is simpler, especially in regard to pulling/pushing files to and from AWS S3, which is the storage service we are testing our system with. However, given that we don’t know Python as well, and it would’ve taken longer to write code in Python, we decided not to use it given the time constraints of this project.
+- **Reason for Use:** Extensive familiarity and expertise with it combined with time constraints and need for efficient progress, robust ecosystem and extensive libraries that offer a wealth of resources to expedite development tasks.
+- **Considered Alternatives:** Python, due to its simplicity and suitability for AWS S3 interactions. However, lack of team expertise and potential longer development time led to the decision not to use it, especially given our time constraints.
 
 ## JUnit and Maven
-- **Reason for Use:** Robust and automated testing facilitated by JUnit, integrated with Maven for streamlined project setup and dependency management.
+- **Reason for Use:** JUnit facilitates robust and automated unit testing and smoothly integrates with Maven for streamlined project setup and dependency management, extensive familiarity and experience with both.
 - **Considered Alternatives:** None, as JUnit and Maven are widely adopted and well-suited for Java projects.
 
-In our project, we rely on JUnit for robust and automated testing of our Java codebase. JUnit offers a simple and effective framework for writing and executing unit tests, allowing us to validate individual components in isolation. By adopting test-driven development practices facilitated by JUnit, we ensure the reliability and correctness of our codebase, mitigating the risk of regressions as we iterate on our software. Furthermore, JUnit integrates seamlessly with our build and dependency management tool, Maven. Maven's declarative approach to project configuration and dependency resolution simplifies project setup and ensures consistent builds across different environments. With Maven, we can easily manage project dependencies, compile our code, run tests, and package our application for deployment, streamlining our development workflow and promoting project scalability and maintainability. Together, JUnit and Maven empower us to deliver high-quality software efficiently, meeting our project goals with confidence.
-
 ## Docker
-- **Reason for Use:** Lightweight containerization for consistent deployment across environments.
+- **Reason for Use:** Lightweight containerization, consistent deployment across environments, minimal setup.
 - **Considered Alternatives:** Other containerization solutions, but Docker's ease of use and popularity made it the preferred choice.
 
-To ensure seamless deployment and scalability of our services, we employed Docker for containerization. By containerizing our services, we achieved consistency across various environments and simplified deployment processes. Docker's lightweight nature and ease of use made it the preferred choice over other containerization solutions, facilitating efficient resource utilization and minimizing overhead.
-
 ## Kubernetes
-- **Reason for Use:** Orchestration and management of containerized services for scalability and resilience.
+- **Reason for Use:** Orchestration and management of containerized services for scalability and resilience, offers us full control over system's deployment, scaling, and maintenance.
 - **Considered Alternatives:** Other orchestration tools, but Kubernetes' extensive features and community support made it the preferred choice.
-
-For orchestration and management of our containerized services, we adopted Kubernetes. Kubernetes offered us comprehensive control over our system's deployment, scaling, and maintenance. Its advanced features for automatic scaling, load balancing, and self-healing capabilities empowered us to build a resilient and scalable infrastructure. Moreover, Kubernetes' vibrant community and extensive documentation provided valuable support and resources throughout the development lifecycle.
 
 ## RabbitMQ
 - **Reason for Use:** Reliable messaging system with support for various messaging patterns.

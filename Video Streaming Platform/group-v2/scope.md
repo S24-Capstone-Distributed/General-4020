@@ -1,21 +1,29 @@
 ## Client Requests Processing of Video
 
-Users upload videos in one format (and possibly multiple formats if time permits).
-The uploaded video is split into segments based on the number of available nodes.
-The segments are distributed to the available nodes.
-Nodes further divide the video based on the number of transcoder workers available and send the segments to them.
-Transcoder workers process the segments into multiple resolutions and bitrates.
-The transcoded videos are sent to the uploader worker.
-The uploader worker combines or zips them and uploads the final videos to S3.
-The system tracks the status of all transcoding tasks, enabling error handling and providing progress updates to clients.
+**Trigger:** Client requests that a video (which has been uploaded to the storage service) be processed.
 
+**Description:** This is the "happy path" for our system; a client requests that a video gets processed and it is successfully processed.
+
+**Preconditions:**
+- The system is actively processing video transcoding tasks.
+- The video has been uploaded in the correct format (perhaps there will be multiple if time permits) to the storage service.
+
+**Basic Flow:**
+1. The uploaded video is split into segments based on the number of available nodes.
+2. The segments are distributed to the available nodes.
+3. Nodes further divide the video based on the number of transcoder pods available and send the segments to them.
+4. Transcoder pods process the segments into multiple resolutions and bitrates.
+5. The transcoded videos are sent to the uploader pod.
+6. The uploader pod combines or zips them and uploads the final videos back to the storage service.
+7. The system tracks the status of all transcoding tasks, enabling error handling and providing progress updates to clients.
+
+**Autoscaling Element:**
 - As the number of users and volume of video uploads increase, the distributed system horizontally scales by adding more nodes to handle the workload.
-  If there are many items in the queue that need to be processed new nodes will be spun up to process some of the work.
-  If there are very big items in the queue, then what?
-- Autoscaling mechanisms dynamically adjust the number of nodes based on utilization to ensure optimal resource allocation and performance.
+  If there are many items in the queue that need to be processed, new nodes will be spun up to process some of the work.
 - As the number of users and volume of video uploads decrease, the distributed system shuts down nodes that aren’t being utilized / are underutilized after they finish all work they are currently doing.
+- It's okay if the queue contains a diverse array of task sizes. Autoscaling mechanisms dynamically adjust the number of nodes based on utilization to ensure optimal resource allocation and performance.
 
-## Transcoder Container Failure and Recovery
+## Container Failure: Transcoder
 
 **Description:** In the event that a transcoder container within a pod fails during the transcoding process, the system needs to handle the failure gracefully and ensure that the transcoding task is re-queued for processing without losing progress or data integrity.
 

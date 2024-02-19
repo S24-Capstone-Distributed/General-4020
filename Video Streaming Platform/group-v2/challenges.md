@@ -15,7 +15,7 @@
 ## Distributed System Challenges
 
 1. **Fault Detection and Recovery**
-   - Failure of puller, transcoder, and pusher containers
+   - Potential failure of puller, transcoder, and pusher containers
    - Prompt detection and requeuing of failed tasks without data loss or duplication
    
 2. **Autoscaling**
@@ -24,7 +24,7 @@
    
 3. **Load Balancing**
    - Equitable distribution of workload across all nodes
-   - Preventing overload on individual nodes or workers
+   - Preventing overload on individual nodes or pods
 
 ## Approach to Address Challenges
 
@@ -40,7 +40,7 @@
 
 ### Load Balancing
 - Prioritize distribution of equal-sized segments of transcoding tasks to each available node.
-- Manage workload distribution among transcoder workers to prevent overload.
+- Manage workload distribution among transcoder pods to prevent overload.
 
 ## Phase Two Enhancements
 

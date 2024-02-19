@@ -15,7 +15,7 @@
 ## Distributed System Challenges
 
 1. **Fault Detection and Recovery**
-   - Potential failure of puller, transcoder, and pusher containers
+   - Potential failure of puller, transcoder, and pusher pods
    - Prompt detection and requeuing of failed tasks without data loss or duplication
    
 2. **Autoscaling**
@@ -29,7 +29,7 @@
 ## Approach to Address Challenges
 
 ### Fault Detection and Recovery
-- Implement health checks to continuously monitor the status of containers and nodes.
+- Implement health checks to continuously monitor the status of pods and nodes.
 - Trigger automated processes to requeue failed tasks and redistribute workload to healthy pods.
 - Utilize checkpointing mechanisms to resume processing from the point of failure, minimizing redundancy and ensuring data integrity.
 

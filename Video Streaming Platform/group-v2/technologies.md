@@ -35,13 +35,3 @@
 ## DynamoDB
 - **Reason for Use:** Simplicity and ease of management combined with project timeline and team experience with AWS, key-value database aligns with the type of data we're storing, and integration with AWS ecosystem.
 - **Considered Alternatives:** Apache Cassandra, Apache HBase, Google Cloud Bigtable, but they have steeper learning curves, more management complexity, and less integration with other technologies we're using.
-
-### File Transfer Approach in Kubernetes Pods
-
-- **Decision:** Utilize the local file system within the pod for file transfer between containers.
-- **Reasoning:**
-  - Faster performance, particularly for large files, by avoiding TCP overhead.
-  - Minimizes network latency
-  - Streamlines development process by bypassing overhead such as setting up inter-container communication.
-- **Considered Alternatives:**
-  - TCP communication between containers within the pod, which could introduce additional network overhead and latency. 

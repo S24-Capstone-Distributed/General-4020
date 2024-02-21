@@ -13,8 +13,9 @@
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The video task details are available via RabbitMQ.
+- The video task IDs are available via RabbitMQ.
 - The necessary video file exists in the object store.
+- The details for this task are stored in the database and can be accessed using the task ID.
 
 **Basic Flow:**
 1. Take message off of RabbitMQ containing the task ID.
@@ -33,7 +34,6 @@
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The video has been uploaded in the correct format to the storage service.
 
 **Basic Flow:**
 1. Monitor the CPU utilization of all worker nodes.

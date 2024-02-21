@@ -15,7 +15,7 @@
 ## Distributed System Challenges
 
 1. **Fault Detection and Recovery**
-   - Potential failure of puller, transcoder, and pusher pods
+   - Potential transient or permanent failure within puller, transcoder, or pusher components
    - Prompt detection and requeuing of failed tasks without data loss or duplication
    
 2. **Autoscaling**
@@ -23,7 +23,7 @@
    - Ensuring optimal performance and resource efficiency
    
 3. **Load Balancing**
-   - Equitable distribution of workload across all nodes
+   - Equitable distribution of workload across all nodes based on nodes' workload and resource utilization
    - Preventing overload on individual nodes or pods
 
 ## Approach to Address Challenges
@@ -39,10 +39,9 @@
 - Proactively manage resource allocation to accommodate varying workloads while minimizing operational costs.
 
 ### Load Balancing
-- Prioritize distribution of equal-sized segments of transcoding tasks to each available node.
+- Prioritize distribution of transcoding tasks to each available node based on node utilization.
 - Manage workload distribution among transcoder pods to prevent overload.
 
 ## Phase Two Enhancements
 
 - Network latency optimization. As long as the system works in a normal amount of time, that is good enough for now. In stage 2 we could work on optimizing the system and making it work even faster.
-- Advanced load balancing algorithms based on machine performance. For now it is enough to distribute an equal amount of work to each node. But it is likely that some nodes will be more powerful than others. So in stage 2 we would work on distributing work based on how much the nodes are being utilized.

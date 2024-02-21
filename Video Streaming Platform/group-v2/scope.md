@@ -1,8 +1,8 @@
 ## Table of Contents
-- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
-- [Error Handling: Container Failure](#error-handling-container-failure)
 - [Client Requests Processing of Video](#client-requests-processing-of-video)
 - [Autoscaling Workflow](#autoscaling-workflow)
+- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
+- [Error Handling: Container Failure](#error-handling-container-failure)
 
 
 ## Client Requests Processing of Video

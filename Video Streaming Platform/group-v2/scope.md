@@ -35,84 +35,56 @@
    - Block underutilized nodes from receiving any more work and shut them down underutilized after they finish their current tasks.
 4. Continue monitoring and adjusting the number of worker nodes as needed.
 
-## Container Failure: Transcoder
+## Error Handling: Functional Container Error
 
-**Description:** In the event that a transcoder container within a pod fails during the transcoding process, the system needs to handle the failure gracefully and ensure that the transcoding task is re-queued for processing without losing progress or data integrity.
+**Description:** This workflow addresses errors encountered within the single functional container during the processing of video tasks. It involves retries and escalation procedures to ensure task completion and system reliability.
 
-**Trigger:** The transcoder container encounters an unexpected error, such as a runtime exception, resource exhaustion, or network connectivity issue, leading to its failure.
+**Trigger:** The functional container encounters an error during the pull, transcode, or push operation.
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The failed transcoder container is part of a pod within the transcoding cluster.
+- The functional container is still functioning but has encountered an error during its operation.
 
 **Basic Flow:**
-1. Upon detecting the failure of the transcoder container, the system marks the transcoding task associated with the failed container as "failed" or "incomplete."
-2. The system automatically triggers the re-queuing mechanism to reschedule the failed transcoding task for processing.
-3. The scheduler assigns the re-queued transcoding task to an available transcoder container within the cluster for processing.
-4. The transcoding process resumes from the point of failure, utilizing any available progress or checkpoint data to minimize redundancy.
-5. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
+1. Upon encountering an error, the functional container logs the error message and increments the retry counter for the task.
+2. The system checks the retry count against a predefined threshold to determine whether to retry the operation or escalate the issue.
+3. If the retry count is below the threshold:
+   - The system retries the operation after a brief delay to allow for potential transient issues to resolve.
+   - If the retry is successful, the task continues as normal.
+4. If the retry count exceeds the threshold:
+   - The system escalates the issue to system administrators or designated personnel for manual intervention.
+5. System administrators investigate the root cause of the error and take appropriate actions to resolve it, such as adjusting configurations, restarting the container, or reallocating resources.
+6. Once the issue is resolved, the system updates the task status accordingly and resumes processing.
+7. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
 
 **Alternative Flows:**
-- If the failure is due to a transient issue (e.g., network interruption), the system may attempt to reconnect and resume processing without re-queuing the task immediately.
-- If the failure persists despite recovery attempts, the system may escalate the issue for manual intervention or further investigation by system administrators.
+- If the error is transient and resolves after a retry attempt, the system continues processing without escalation.
+- If the error persists despite retry attempts, the system may implement additional measures, such as exponential backoff or circuit breaker strategies, before escalating the issue.
 
 **Postconditions:**
-- The failed transcoding task is successfully re-queued and resumed without data loss or duplication.
-- Progress updates and status changes are accurately reflected in the system's logs and monitoring tools.
-- The system maintains reliability and availability despite individual container failures within the transcoding cluster.
+- The system maintains reliability and availability by handling functional container errors gracefully and ensuring timely resolution through retries and escalation procedures.
 
-## Container Failure: Puller
+## Error Handling: Container Failure
 
-**Description:** In the event that the container responsible for pulling video files from the distributed storage service fails during the file retrieval process, the system needs to handle the failure gracefully and ensure that the files are re-pulled for processing without data loss or duplication.
+**Description:** This workflow addresses the failure of the single container within the processing pod. It involves detection, recovery, and system stability measures to mitigate the impact of container failures on video processing tasks.
 
-**Trigger:**
-- The puller container encounters an unexpected error, such as a runtime exception, resource exhaustion, or network connectivity issue, leading to its failure during the file retrieval process.
+**Trigger:** The container fails due to runtime exceptions, resource exhaustion, or other critical issues.
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The failed puller container is part of a pod within the processing cluster.
+- The container failure affects the processing pod's ability to handle tasks.
 
 **Basic Flow:**
-1. Upon detecting the failure of the puller container, the system marks the affected file retrieval task as "failed" or "incomplete."
-2. The system automatically triggers the re-pulling mechanism to retrieve the failed files for processing.
-3. The scheduler assigns the re-pulled files to an available puller container in the same pod for retrieval.
-4. The file retrieval process resumes from the point of failure, utilizing any available progress or checkpoint data to minimize redundancy.
-5. If the whole pod has failed, then the scheduler will assign a different node to pull, and it will start from scratch.
+1. The system monitors container health through heartbeat signals or other health checks.
+2. Upon detecting a container failure, the system marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
+3. Recovery procedures may involve restarting the failed container, rescheduling tasks within the same container, or reallocating resources as necessary.
+4. System administrators or automated processes investigate the root cause of the failure and take corrective actions to prevent recurrence.
+5. Once the container is restored, the system resumes processing and updates task statuses accordingly.
 6. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
 
 **Alternative Flows:**
-- If the failure is due to a transient issue (e.g., network interruption), the system may attempt to reconnect and resume retrieval without re-pulling the files immediately.
-- If the failure persists despite recovery attempts, the system may escalate the issue for manual intervention or further investigation by system administrators.
+- If the container failure is due to resource constraints, the system may dynamically adjust resource allocations or trigger autoscaling mechanisms to mitigate future failures.
+- If the failure persists despite recovery attempts, the system may escalate the issue for further investigation by system administrators or engineers.
 
 **Postconditions:**
-- The failed file retrieval task is successfully re-pulled and resumed without data loss or duplication.
-- Progress updates and status changes are accurately reflected in the system's logs and monitoring tools.
-- The system maintains reliability and availability despite individual container failures within the file retrieval cluster.
-
-## Container Failure: Pusher
-
-**Description:** In the event that the container responsible for pushing processed video files to the storage service fails during the upload process, the system needs to handle the failure gracefully and ensure that the files are re-uploaded without data loss or duplication.
-
-**Trigger:**
-- The pusher container encounters an unexpected error, such as a runtime exception, resource exhaustion, or network connectivity issue, leading to its failure during the file upload process.
-
-**Preconditions:**
-- The system is actively processing video transcoding tasks.
-- The failed pusher container is part of a pod within the processing cluster.
-
-**Basic Flow:**
-1. Upon detecting the failure of the pusher container, the system marks the affected file upload task as "failed" or "incomplete."
-2. The system automatically triggers the re-uploading mechanism to upload the failed files.
-3. The scheduler assigns the re-uploaded files to an available pusher container within the same pod for upload.
-4. The file upload process resumes from the point of failure, utilizing any available progress or checkpoint data to minimize redundancy.
-5. If the whole pod has failed, all of the work will have to be done again on another node.
-6. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
-
-**Alternative Flows:**
-- If the failure is due to a transient issue (e.g., network interruption), the system may attempt to reconnect and resume upload without re-uploading the files immediately.
-- If the failure persists despite recovery attempts, the system may escalate the issue for manual intervention or further investigation by system administrators.
-
-**Postconditions:**
-- The failed file upload task is successfully re-uploaded and resumed without data loss or duplication.
-- Progress updates and status changes are accurately reflected in the system's logs and monitoring tools.
-- The system maintains reliability and availability despite individual container failures within the file upload cluster.
+- The system maintains reliability and availability by promptly detecting and recovering from container failures, ensuring minimal disruption to video processing operations.

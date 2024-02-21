@@ -18,13 +18,14 @@
 
 **Basic Flow:**
 1. Take message off of RabbitMQ containing the task ID.
-2. Retrieve task details from the database using the provided task ID.
-3. Pull the necessary video file from the object store based on the task details.
-4. Log in the database that the video file has been pulled for transcoding.
-5. Transcode the video file to desired resolutions and bitrates.
-6. Log in the database that the video has been transcoded.
-7. Upload the transcoded video file back to the storage service.
-8. Log in the database that the transcoded video has been uploaded.
+2. Log to the database that this task ID was taken off with details about the container that is processing it.
+3. Retrieve task details from the database using the provided task ID.
+4. Pull the necessary video file from the object store based on the task details.
+5. Log in the database that the video file has been pulled for transcoding.
+6. Transcode the video file to desired resolutions and bitrates.
+7. Log in the database that the video has been transcoded.
+8. Upload the transcoded video file back to the storage service.
+9. Log in the database that the transcoded video has been uploaded.
 
 ## Autoscaling Workflow
 

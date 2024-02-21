@@ -20,7 +20,7 @@
 - **Reason for Use:** Reliable messaging system, support for various messaging patterns, integration with Java, and ease of use.
 - **Considered Alternatives:** Apache Kafka, but RabbitMQ's simplicity and seamless integration with Java favored its selection.
 
-## h264 Codec
+## H264 Codec
 - **Reason for Use:** Longevity, widespread device compatibility, extensive support, and ease of use.
 - **Considered Alternatives:** Newer codecs like VP9, but their relative novelty and limited device support posed potential risks.
 

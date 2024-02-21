@@ -1,27 +1,39 @@
 ## Client Requests Processing of Video
 
-**Trigger:** Client requests that a video (which has been uploaded to the storage service) be processed.
+**Trigger:** Client request received over RabbitMQ with a task ID.
 
-**Description:** This is the "happy path" for our system; a client requests that a video gets processed and it is successfully processed.
+**Description:** This workflow describes how a video is processed within a single pod and process. It involves receiving a message over RabbitMQ with a task ID, pulling the necessary video file from the object store, transcoding it, and uploading the transcoded file back to the storage service. This describes the happy path. Error handling is discussed later.
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The video has been uploaded in the correct format (perhaps there will be multiple if time permits) to the storage service.
+- The video task details are available via RabbitMQ.
+- The necessary video file exists in the object store.
 
 **Basic Flow:**
-1. The uploaded video is split into segments based on the number of available nodes.
-2. The segments are distributed to the available nodes.
-3. Nodes further divide the video based on the number of transcoder pods available and send the segments to them.
-4. Transcoder pods process the segments into multiple resolutions and bitrates.
-5. The transcoded videos are sent to the uploader pod.
-6. The uploader pod combines or zips them and uploads the final videos back to the storage service.
-7. The system tracks the status of all transcoding tasks, enabling error handling and providing progress updates to clients.
+1. Take message off of RabbitMQ containing the task ID.
+2. Retrieve task details from the database using the provided task ID.
+3. Pull the necessary video file from the object store based on the task details.
+4. Log in the database that the video file has been pulled for transcoding.
+5. Transcode the video file to desired resolutions and bitrates.
+6. Log in the database that the video has been transcoded.
+7. Upload the transcoded video file back to the storage service.
+8. Log in the database that the transcoded video has been uploaded.
 
-**Autoscaling Element:**
-- As the number of users and volume of video uploads increase, the distributed system horizontally scales by adding more nodes to handle the workload.
-  If there are many items in the queue that need to be processed, new nodes will be spun up to process some of the work.
-- As the number of users and volume of video uploads decrease, the distributed system shuts down nodes that aren’t being utilized / are underutilized after they finish all work they are currently doing.
-- It's okay if the queue contains a diverse array of task sizes. Autoscaling mechanisms dynamically adjust the number of nodes based on utilization to ensure optimal resource allocation and performance.
+## Autoscaling Workflow
+
+**Description:** This workflow describes how the system dynamically scales based on the CPU utilization of worker nodes.
+
+**Preconditions:**
+- The system is actively processing video transcoding tasks.
+- The video has been uploaded in the correct format to the storage service.
+
+**Basic Flow:**
+1. Monitor the CPU utilization of all worker nodes.
+2. If the average CPU utilization is high:
+   - Spin up additional worker nodes to handle the increased workload.
+3. If the average CPU utilization is very low:
+   - Block underutilized nodes from receiving any more work and shut them down underutilized after they finish their current tasks.
+4. Continue monitoring and adjusting the number of worker nodes as needed.
 
 ## Container Failure: Transcoder
 

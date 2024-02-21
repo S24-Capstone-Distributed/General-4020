@@ -18,7 +18,7 @@
 
 **Basic Flow:**
 1. Take message off of RabbitMQ containing the task ID.
-2. Log to the database that this task ID was taken off with details about the container that is processing it.
+2. Log in the database that this task ID was taken off with details about the container that is processing it.
 3. Retrieve task details from the database using the provided task ID.
 4. Pull the necessary video file from the object store based on the task details.
 5. Log in the database that the video file has been pulled for transcoding.

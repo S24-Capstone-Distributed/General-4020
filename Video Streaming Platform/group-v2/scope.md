@@ -89,10 +89,9 @@
 **Basic Flow:**
 1. The system monitors container health through heartbeat signals or other health checks.
 2. Upon detecting a container failure through the heartbeat protocol described below, the node in charge of error handling marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
-3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a status event with the task ID to requeue to the machine in charge of requeing failed tasks
-4. System administrators or automated processes may investigate the root cause of the failure and take corrective actions to prevent recurrence.
-5. Once the container is restored, the system resumes processing and updates task statuses accordingly.
-6. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
+3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a status event with the task ID to requeue to the machine in charge of requeing failed tasks. Otherwise, there is nothing that needs to be done.
+4. A status event will also be sent to administrators in case they want to investigate the root cause of the container failure.
+5. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
 
 **Alternative Flows:**
 - If the container failure is due to resource constraints, the system may dynamically adjust resource allocations or trigger autoscaling mechanisms to mitigate future failures.

@@ -1,5 +1,8 @@
 # Scope and Use Cases
 
+
+## Realtime prices
+
 ### Accepting Stock Price Updates
 
 **Description:**

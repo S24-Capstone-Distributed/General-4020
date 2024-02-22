@@ -29,7 +29,7 @@
 ## Approach to Address Challenges
 
 ### Fault Detection and Recovery
-- Implement health checks to continuously monitor the status of pods and nodes.
+- Implement heartbeats and status events to continuously monitor the status of pods and nodes.
 - Trigger automated processes to requeue failed tasks and redistribute workload to healthy pods.
 - Utilize checkpointing mechanisms to resume processing from the point of failure, minimizing redundancy and ensuring data integrity.
 

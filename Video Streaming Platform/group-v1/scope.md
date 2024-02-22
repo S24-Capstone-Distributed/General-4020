@@ -13,5 +13,3 @@ Files will be sharded and replicated across multiple storage nodes. this will pr
 - Increased storage capability and scalability.
 
 - Increased bandwidth and number of concurrent users.
-
-

@@ -22,5 +22,5 @@ This system will be used by the other 2 groups:
 
 - Group V2 will retrieve the raw video uploads from our platform. They will apply different transformations to the video and then store the re-encoded videos on our platform.
 
-![System context C4 diagram](system_context.png)
+![System context C4 diagram](./diagrams/system_context.png)
 *System context C4 diagram*

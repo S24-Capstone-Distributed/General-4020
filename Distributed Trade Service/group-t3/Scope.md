@@ -64,6 +64,77 @@ Clients retrieve stock price information using the provided package of code.
 **Postcondition:**
 Clients benefit from improved throughput and reduced network requests due to the efficient management of an in-memory cache, enhancing overall system performance.
 
+# Historical Price Trends
+
+### Stock Price Update Reception
+
+**Trigger:** A data source sends a stock price update to the API endpoint.
+
+**Description:** Data sources send stock price updates which are then processed and stored for future retrieval.
+
+**Preconditions:**
+- The system is capable of receiving and processing stock price updates.
+- Stock price updates are sent in a supported format.
+
+**Basic Flow:**
+1. A data source sends a stock price update to the provided API endpoint.
+2. The system validates the format of the update.
+3. The update is then queued for processing to handle the load efficiently.
+4. The processing node extracts relevant information from the update.
+5. The extracted data is stored in the long-term database with appropriate indexing for efficient querying.
+6. The system updates the internal cache to reflect the latest stock price for immediate access.
+7. A confirmation is sent back to the data source acknowledging the receipt and processing of the update.
+
+**High Availability Element:**
+- The system uses a distributed architecture to ensure high availability. If a node fails, other nodes in the cluster continue to serve clients without interruption.
+- Data is replicated across multiple nodes to prevent data loss and to facilitate an eventually consistent view of stock prices.
+
+### Historical Trend Retrieval
+
+**Trigger:** A system component requests historical stock price trends.
+
+**Description:** Clients or internal components request historical stock price data for analysis or decision-making purposes.
+
+**Preconditions:**
+- The system has stored historical stock price data.
+- The request specifies the stock symbol and the time range for which the data is needed.
+
+**Basic Flow:**
+1. A request is made to the API endpoint for historical stock price data.
+2. The system validates the request parameters.
+3. The system queries the long-term database using the specified parameters.
+4. Data is retrieved and formatted according to the request (e.g., daily averages, monthly highs and lows).
+5. The system sends the requested data back to the requester.
+
+**Scalability Element:**
+- The system is designed to be horizontally scalable, allowing it to handle a large number of requests for historical data.
+- As demand increases, more nodes can be added to the cluster to distribute the load and improve performance.
+
+### Eventual Consistency and Order Guarantee
+
+**Description:** The system ensures that all updates are eventually reflected in the view provided to clients and maintains the chronological order of updates.
+
+**Trigger:** Continuous inflow of stock price updates.
+
+**Preconditions:**
+- Stock price updates are being received and processed by the system.
+
+**Basic Flow:**
+1. Updates are received and timestamped to maintain order.
+2. The system processes updates in the order they are received, ensuring chronological integrity.
+3. In case of high latency or node failure, the system ensures no updates are lost and are eventually processed.
+4. The consistency model guarantees that once an update is processed, all subsequent retrievals of stock data reflect this update.
+
+**Alternative Flows:**
+- If updates from the same source arrive out of order, the system queues them to be processed in the correct chronological order.
+- In the event of a node failure, the system redistributes the load to other nodes without losing any updates.
+
+**Postconditions:**
+- The system provides an eventually consistent view of stock price updates.
+- The chronological order of updates is preserved, ensuring that later updates are not visible before earlier ones.
+
+These scenarios outline the scope and use cases for your project, focusing on the reception of stock price updates, processing for historical trends, maintaining high availability, scalability, eventual consistency, and the order guarantee of updates.
+
 # Heartbeat System Deployment
 
 ## Overview

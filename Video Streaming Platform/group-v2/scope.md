@@ -38,14 +38,16 @@
 - The system is actively processing video transcoding tasks.
 
 **Basic Flow:**
-1. Monitor the CPU utilization of all worker nodes.
-2. If the average CPU utilization is high:
-   - Spin up additional worker nodes to handle the increased workload.
+1. Each worker node continuously monitors its own CPU and RAM utilization.
+2. Worker nodes share their CPU and RAM utilization data with the node responsible for coordinating autoscaling.
+3. The coordinating node aggregates the CPU utilization data from all worker nodes.
+4. If the average CPU utilization across all worker nodes is high:
+   - The coordinating node initiates the spinning up of additional worker nodes to handle the increased workload.
    - Log in the database that a new worker node was spun up.
-3. If the average CPU utilization is very low:
-   - Block underutilized nodes from receiving any more work and shut them down underutilized after they finish their current tasks.
+5. If the average CPU utilization across all worker nodes is very low:
+   - The coordinating node blocks underutilized nodes from receiving any more work and schedules them for shutdown after they finish their current tasks.
    - Once a node is shut down, log in the database that it was shut down.
-4. Continue monitoring and adjusting the number of worker nodes as needed.
+6. Continuously monitor and adjust the number of worker nodes as needed based on the aggregated CPU utilization data from all worker nodes.
 
 ## Error Handling: Functional Container Error
 

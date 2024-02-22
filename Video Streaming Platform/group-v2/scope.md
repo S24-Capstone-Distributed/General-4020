@@ -39,8 +39,10 @@
 1. Monitor the CPU utilization of all worker nodes.
 2. If the average CPU utilization is high:
    - Spin up additional worker nodes to handle the increased workload.
+   - Log in the database that a new worker node was spun up.
 3. If the average CPU utilization is very low:
    - Block underutilized nodes from receiving any more work and shut them down underutilized after they finish their current tasks.
+   - Once a node is shut down, log in the database that it was shut down.
 4. Continue monitoring and adjusting the number of worker nodes as needed.
 
 ## Error Handling: Functional Container Error

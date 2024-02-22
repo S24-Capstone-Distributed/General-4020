@@ -88,9 +88,9 @@
 
 **Basic Flow:**
 1. The system monitors container health through heartbeat signals or other health checks.
-2. Upon detecting a container failure, the system marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
-3. Recovery procedures may involve restarting the failed container, rescheduling tasks within the same container, or reallocating resources as necessary.
-4. System administrators or automated processes investigate the root cause of the failure and take corrective actions to prevent recurrence.
+2. Upon detecting a container failure through the heartbeat protocol described below, the node in charge of error handling marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
+3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a status event with the task ID to requeue to the machine in charge of requeing failed tasks
+4. System administrators or automated processes may investigate the root cause of the failure and take corrective actions to prevent recurrence.
 5. Once the container is restored, the system resumes processing and updates task statuses accordingly.
 6. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
 
@@ -111,16 +111,15 @@
 
 **Basic Flow:**
 1. Each container or pod periodically selects a random subset of peers to send heartbeat signals to.
-2. The selected peers listen for incoming heartbeat signals from their peers.
-3. Upon receiving a heartbeat signal:
+2. Upon receiving a heartbeat signal:
    - If the sender is already marked as active, the receiving container or pod updates the latest activity timestamp for that sender.
    - If the sender was previously marked as inactive and has been inactive for at least double the heartbeat timeout period, and it now sends a heartbeat signal, the receiving container or pod re-adds it to the table and marks it as active.
    - Otherwise, the sender is still considered to be inactive, and it's gossip table is ignored.
-4. Each container or pod shares its gossip table containing information about when peers were last active when sending out heartbeat signals.
-5. Upon receiving a heartbeat signal, each container or pod merges the received gossip table with its own to ensure consistency and update its records accordingly.
-6. Periodically, each container or pod iterates through its heartbeat table to identify peers that have not received any information for a while.
-7. Peers that have been inactive for an extended period, beyond a predefined threshold, are marked as failed.
-8. Monitoring systems track the frequency of heartbeat signals and raise alerts if abnormalities or failures are detected.
+3. Each container or pod shares its gossip table containing information about when peers were last active when sending out heartbeat signals.
+4. Upon receiving a heartbeat signal, each container or pod merges the received gossip table with its own to ensure consistency and update its records accordingly.
+5. Periodically, each container or pod iterates through its heartbeat table to identify peers that have not received any information for a while.
+6. Peers that have been inactive for an extended period, beyond a predefined threshold, are marked as failed.
+7. Monitoring systems track the frequency of heartbeat signals and raise alerts if abnormalities or failures are detected.
 
 **Alternative Flows:**
 - In scenarios where network partitions or communication issues occur, the system may employ quorum-based approaches or consensus algorithms to maintain integrity and availability.

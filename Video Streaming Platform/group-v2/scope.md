@@ -3,6 +3,8 @@
 - [Autoscaling Workflow](#autoscaling-workflow)
 - [Error Handling: Functional Container Error](#error-handling-functional-container-error)
 - [Error Handling: Container Failure](#error-handling-container-failure)
+- [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
+
 
 
 ## Client Requests Processing of Video
@@ -98,3 +100,31 @@
 
 **Postconditions:**
 - The system maintains reliability and availability by promptly detecting and recovering from container failures, ensuring minimal disruption to video processing operations.
+
+## Gossip-Based Heartbeat Protocol Between Containers/Pods
+
+**Description:** This workflow outlines the process of exchanging heartbeat signals between containers or pods within the system using a gossip-based protocol. The protocol involves randomly selecting peers to exchange heartbeat signals, updating activity timestamps, merging gossip tables, and handling inactive or failed peers.
+
+**Preconditions:**
+- The system consists of multiple containers or pods that need to communicate their status.
+- Gossip-based heartbeat mechanisms are implemented within the containers or pods.
+
+**Basic Flow:**
+1. Each container or pod periodically selects a random subset of peers to send heartbeat signals to.
+2. The selected peers listen for incoming heartbeat signals from their peers.
+3. Upon receiving a heartbeat signal:
+   - If the sender is already marked as active, the receiving container or pod updates the latest activity timestamp for that sender.
+   - If the sender was previously marked as inactive and has been inactive for at least double the heartbeat timeout period, and it now sends a heartbeat signal, the receiving container or pod re-adds it to the table and marks it as active.
+   - Otherwise, the sender is still considered to be inactive, and it's gossip table is ignored.
+4. Each container or pod shares its gossip table containing information about when peers were last active when sending out heartbeat signals.
+5. Upon receiving a heartbeat signal, each container or pod merges the received gossip table with its own to ensure consistency and update its records accordingly.
+6. Periodically, each container or pod iterates through its heartbeat table to identify peers that have not received any information for a while.
+7. Peers that have been inactive for an extended period, beyond a predefined threshold, are marked as failed.
+8. Monitoring systems track the frequency of heartbeat signals and raise alerts if abnormalities or failures are detected.
+
+**Alternative Flows:**
+- In scenarios where network partitions or communication issues occur, the system may employ quorum-based approaches or consensus algorithms to maintain integrity and availability.
+
+**Postconditions:**
+- The gossip-based heartbeat protocol facilitates continuous monitoring and synchronization between containers or pods, enhancing the system's resilience and fault tolerance.
+

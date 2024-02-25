@@ -1,11 +1,25 @@
-## Workflow diagram for the [standard processing of a video](scope.md#client-requests-processing-of-video):
-![VideoProcessing_Upload_Latest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/97951c8c-0161-4bb0-afc8-37488e65e15a)
+## Table of Contents
+- [Client Requests Processing of Video](#client-requests-processing-of-video)
+- [Autoscaling Workflow](#autoscaling-workflow)
+- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
+- [Error Handling: Container Failure](#error-handling-container-failure)
+- [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
+- [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
 
-## Workflow diagram for [transcoder failure](scope.md#container-failure-transcoder):
-![VideoProcessing_TranscoderFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/5092b114-6328-4f9e-bffe-826f611980e9)
+## [Client Requests Processing of Video](scope.md#client-requests-processing-of-video):
+![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/9bcb183e-13e1-4b51-a195-83b70f855923)
 
-## Workflow diagram for [puller failure](scope.md#container-failure-puller):
-![VideoProcessing_PullerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/f3b75672-a99e-4009-bf82-4072983337be)
+## [Autoscaling Workflow](scope.md#autoscaling-workflow):
+![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/1a3f23db-5820-46c2-8148-049a61056947)
 
-## Workflow diagram for [pusher failure](scope.md#container-failure-pusher):
-![VideoProcessing_PusherFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/e6cdad01-d08f-4699-a8a1-553c39fc7300)
+## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
+![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/50369d96-1cb9-4961-adf8-93ade8545c7c)
+
+## [Error Handling: Container Failure](scope.md#error-handling-container-failure):
+![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/8aced77b-8865-4308-a776-ac21bfa5b970)
+
+## [Gossip-Based Heartbeat Protocol Between Containers/Pods](scope.md#gossip-based-heartbeat-protocol-between-containerspods):
+![VideoProcessing_Hearbeats](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/10dada27-57f2-4c27-a0c1-ff840ae31172)
+
+## [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](scope.md#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing):
+![VideoProcessing_DynamicScalingWithinNode](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/751d2e8e-5379-4901-bdc4-4997cd66b6ab)

@@ -1,5 +1,4 @@
 # Workflow Diagrams (BPMN)
 
-> *Display workflow diagrams for each of your supported use cases. Link to the scope and architecture documents where appropriate.*
-
+![image](https://github.com/S24-Capstone-Distributed/General-4020/assets/77073383/0b375861-0071-49e3-afa9-ad49964731d1)
 

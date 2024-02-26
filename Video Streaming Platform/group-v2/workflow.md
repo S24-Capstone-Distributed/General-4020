@@ -13,10 +13,10 @@
 ![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/1a3f23db-5820-46c2-8148-049a61056947)
 
 ## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
-![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/50369d96-1cb9-4961-adf8-93ade8545c7c)
+![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/fe711b69-948e-457a-9f57-b368859876a7)
 
 ## [Error Handling: Container Failure](scope.md#error-handling-container-failure):
-![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/8aced77b-8865-4308-a776-ac21bfa5b970)
+![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/fab8f521-7b27-49f3-a8ba-7d1cd13de930)
 
 ## [Gossip-Based Heartbeat Protocol Between Containers/Pods](scope.md#gossip-based-heartbeat-protocol-between-containerspods):
 ![VideoProcessing_Hearbeats](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/10dada27-57f2-4c27-a0c1-ff840ae31172)

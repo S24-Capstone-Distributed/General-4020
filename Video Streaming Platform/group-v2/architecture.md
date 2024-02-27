@@ -6,7 +6,7 @@ System architecture overview (see [here](workflow.md#client-requests-processing-
 
 ## Components
 
-### See [here](workflow.md#error-handling-functional-container-error) and [here](workflow.md#error-handling-container-failure) for how the general two types of failure are dealt with
+See [here](workflow.md#error-handling-functional-container-error) and [here](workflow.md#error-handling-container-failure) for how the general two types of failure are dealt with.
 
 Video retrieval/pulling:
 

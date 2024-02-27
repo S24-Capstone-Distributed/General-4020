@@ -6,7 +6,7 @@ System architecture overview (see [here](workflow.md#client-requests-processing-
 
 ## Components
 
-Video retrieval/pulling (see [here](workflow.md#error-handling-functional-container-error) and [here](scope.md#error-handling-container-failure) for how the general two types of failure are dealt with):
+Video retrieval/pulling (see [here](workflow.md#error-handling-functional-container-error) and [here](workflow.md#error-handling-container-failure) for how the general two types of failure are dealt with):
 
 ![VideoProcessing_RetrievalLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/f913f5d2-cf07-42c5-abd6-0b64985ff152)
 

@@ -1,6 +1,6 @@
 ## Overview
 
-System architecture overview (see [here](workflow.md#client-requests-processing-of-video) for basic use case):
+System architecture overview (see [here](workflow.md#client-requests-processing-of-video) for basic use case; for how autoscaling happens see [here](workflow.md#autoscaling-workflow)):
 
 ![VideoProcessing_SystemLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/c6cbe681-965c-4f6a-a39b-08976bf31d09)
 

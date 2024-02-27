@@ -2,18 +2,24 @@
 
 System architecture overview (see [here](workflow.md#client-requests-processing-of-video) for basic use case; for how autoscaling happens see [here](workflow.md#autoscaling-workflow)):
 
-![VideoProcessing_SystemLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/c6cbe681-965c-4f6a-a39b-08976bf31d09)
+![VideoProcessing_SystemOverview](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/d409785e-9d63-46fc-a482-899716af5004)
 
 ## Components
 
-Video retrieval/pulling (see [here](workflow.md#error-handling-functional-container-error) and [here](workflow.md#error-handling-container-failure) for how the general two types of failure are dealt with):
+### See [here](workflow.md#error-handling-functional-container-error) and [here](workflow.md#error-handling-container-failure) for how the general two types of failure are dealt with
 
-![VideoProcessing_RetrievalLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/f913f5d2-cf07-42c5-abd6-0b64985ff152)
+Video retrieval/pulling:
 
-Video processing (see [here](workflow.md#workflow-diagram-for-transcoder-failure) for how failure is handled):
+![VideoProcessing_RetrievalLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/107f3c53-91bb-4518-839f-ee7df3c75605)
 
-![VideoProcessing_ProcessingLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/5d2d983d-a156-4c12-9169-811f7882a5ee)
+Video processing:
 
-Video sending/pushing (see [here](workflow.md#workflow-diagram-for-pusher-failure) for how failure is handled):
+![VideoProcessing_ProcessingLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/5b1a4188-c74e-40c3-b795-80ae70b171ab)
 
-![VideoProcessing_SendingLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/716dc9d8-1659-42c0-8222-0b61b4ac47db)
+Video sending/pushing:
+
+![VideoProcessing_SendingLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/dadfd500-9976-4fe3-a608-4c46ef1cdbb7)
+
+Heartbeat system:
+
+![VideoProcessing_HeartbeatsC4](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/90feb73b-d37d-4202-8f4e-41337aca8514)

@@ -20,6 +20,6 @@ Video sending/pushing:
 
 ![VideoProcessing_SendingLatest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/dadfd500-9976-4fe3-a608-4c46ef1cdbb7)
 
-Heartbeat system:
+Heartbeat system (see [here](workflow.md#gossip-based-heartbeat-protocol-between-containerspods) for the heartbeat workflow):
 
 ![VideoProcessing_HeartbeatsC4](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/90feb73b-d37d-4202-8f4e-41337aca8514)

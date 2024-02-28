@@ -61,13 +61,13 @@
 
 ## Client Requests Processing of Video
 
-**Trigger:** Client request received over RabbitMQ with a task ID.
+**Trigger:** Client request received over the message bus / queue with a task ID.
 
-**Description:** This workflow describes how a video is processed within a single pod and process. It involves receiving a message over RabbitMQ with a task ID, pulling the necessary video file from the object store, transcoding it, and uploading the transcoded file back to the storage service. This describes the happy path. Error handling is discussed later.
+**Description:** This workflow describes how a video is processed within a single pod and process. It involves receiving a message over the message bus / queue with a task ID, pulling the necessary video file from the object store, transcoding it, and uploading the transcoded file back to the storage service. This describes the happy path. Error handling is discussed later.
 
 **Preconditions:**
 - The system is actively processing video transcoding tasks.
-- The video task IDs are available via RabbitMQ.
+- The video task IDs are available via the message bus / queue.
 - The necessary video file exists in the object store.
 - The details for this task are stored in the database and can be accessed using the task ID.
 

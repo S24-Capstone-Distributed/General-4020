@@ -59,9 +59,6 @@
 ### 17. WorkloadProcessingFinished
 **Description:** Event triggered when a container finishes processing a video transcoding task, signaling its inactivity.
 
-### 18. TaskFailed
-**Description:** Event triggered when a video transcoding task fails to complete due to errors or issues encountered during processing.
-
 ## Client Requests Processing of Video
 
 **Trigger:** Client request received over RabbitMQ with a task ID.

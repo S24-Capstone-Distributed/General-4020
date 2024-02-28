@@ -50,3 +50,26 @@
   6. Version Control: Docker images are versioned, allowing you to track changes and roll back to previous versions if needed. This version control simplifies software maintenance.
   7. Ecosystem and Community: Docker has a vast ecosystem with pre-built images available on Docker Hub. The community actively contributes to maintaining and improving these images.
   8. DevOps Integration: Docker integrates seamlessly with DevOps tools, making it easier to automate deployment, testing, and monitoring processes.
+
+## Coordination and Node control: ZooKeeper
+1. What is Apache ZooKeeper?
+  1. Apache ZooKeeper is a distributed, open-source coordination service designed to simplify the development and management of distributed applications.
+  2. It provides a centralized place where distributed processes and services can store data, communicate, and coordinate their activities.
+  3. ZooKeeper exposes a simple set of primitives that higher-level services can use for synchronization, configuration maintenance, group management, and naming.
+2. Why Do We Need ZooKeeper?
+  1. In a distributed system, multiple nodes or machines need to communicate and coordinate their actions.
+  2. Implementing coordination services from scratch is complex and prone to errors (e.g., race conditions, deadlocks).
+  3. ZooKeeper simplifies coordination by providing a consistent and reliable way for nodes to be aware of each other and work together.
+3. Key Features of ZooKeeper:
+  1. Hierarchical Data Model: ZooKeeper organizes data in a tree-like structure called Znodes. These Znodes store information and maintain state.
+  2. Primitives: ZooKeeper offers primitives like locks, barriers, and queues for coordination.
+  3. Leader Election: ZooKeeper helps elect a leader among distributed nodes.
+  4. Failover and Recovery: It ensures system resilience by handling failover scenarios.
+4. Challenges in Distributed Systems and Why Coordination Is Hard:
+  1. Coordination Challenge: Coordinating multiple systems in a distributed application.
+  2. Single Point of Failure: Traditional master-slave architecture has a single point of failure (the master node).
+  3. Synchronization Complexity: Ensuring synchronization across distributed nodes is not straightforward.
+  4. Design and Implementation: Careful design and implementation are necessary.
+5. Use Cases and Applications:
+  1. Hadoop: ZooKeeper coordinates Hadoop’s distributed components.
+  2. Kafka: Kafka brokers use ZooKeeper for leader election and topic management.

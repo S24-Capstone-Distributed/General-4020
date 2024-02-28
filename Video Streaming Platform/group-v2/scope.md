@@ -197,15 +197,16 @@
 **Basic Flow:**
 1. Continuously monitor the CPU and RAM utilization of the node during workload processing to gauge resource demand.
 2. If there is one active container:
-   - When the container starts processing a video, it sends a start message to the container monitoring cpu utilization to signal its activity.
+   - When the container starts processing a video, it puts a WorkloadProcessingStarted event on the message bus on which the container monitoring cpu utilization is listening.
    - If the CPU or RAM utilization is below predefined thresholds during container processing:
      - Assess the available CPU and RAM capacity to determine if additional containers can be launched without overloading the node.
      - If feasible, dynamically scale up by launching additional containers to distribute the workload more evenly and alleviate resource constraints.
      - Monitor the CPU and RAM utilization of the newly launched containers to ensure they contribute effectively to workload processing.
-     - Log the scaling activity and update resource allocations for monitoring purposes.
+     - Share a ContainerScaledUp event on the message bus and log it for monitoring purposes.
    - When the container finishes processing, it sends an end message to signal its inactivity.
    - If the CPU or RAM utilization is below predefined thresholds during container processing:
-     - Start shutting down containers once they finish their current jobs until the cpu / ram usage is back to normal.    
+     - Start shutting down containers once they finish their current jobs until the cpu / ram usage is back to normal.
+     - Share a ContainerScaledDown event on the message bus and log it for monitoring purposes.
 3. If there are multiple active containers:
    - Follow the same process as described for a single active container to determine if additional containers need to be launched or existing containers need to be terminated based on resource utilization, but only launch additional containers when cpu / ram utilization is low even when all containers are currently processing.
 4. Continuously monitor CPU and RAM utilization and consider scaling containers dynamically based on workload demands and node capacity to maintain optimal resource utilization and performance during workload processing.

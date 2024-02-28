@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Tools & Technologies</title>
-</head>
-
 <body>
     <h1>Tools & Technologies</h1>
 

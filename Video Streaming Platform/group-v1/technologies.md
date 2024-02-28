@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html>
 
-<body>
-    <h1>Tools & Technologies</h1>
+<head>
+    <title>Tools & Technologies</title>
+</head>
 
-    <h3>Coding Language: Java</h3>
+<body>
+<h1>Tools & Technologies</h1>
+
+<h3>Coding Language: Java</h3>
     <ol>
         <li>Familiarity and ease of use with JUnit, Maven, etc</li>
     </ol>
 
-    <h3>Testing: JUnit</h3>
+<h3>Testing: JUnit</h3>
     <ol>
         <li>Familiarity with the testing capabilities of JUnit</li>
         <li>Used side-by-side with Java</li>
     </ol>
 
-    <h3>Project setup and integration: Maven</h3>
+<h3>Project setup and integration: Maven</h3>
     <ol>
         <li>Familiarity and ease of use</li>
         <li>Powerful package and project tool</li>
     </ol>
 
-    <h3>Software Tools: S3 AWS CLI</h3>
+<h3>Software Tools: S3 AWS CLI</h3>
     <ol>
         <li>
             <a href="https://www.bing.com/ck/a?!&&p=094012c9f504f432JmltdHM9MTcwOTA3ODQwMCZpZ3VpZD0yZTg1OGVlYS02MmRjLTYwNjUtMjgwYS05ZTk3NjNiODYxZDMmaW5zaWQ9NTIxMA&ptn=3&ver=2&hsh=3&fclid=2e858eea-62dc-6065-280a-9e9763b861d3&psq=What+is+the+S3+CLI&u=a1aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2NsaS9sYXRlc3QvdXNlcmd1aWRlL2NsaS1zZXJ2aWNlcy1zMy5odG1s&ntb=1">S3 AWS CLI</a>
@@ -90,7 +94,7 @@
         </li>
     </ol>
 
-    <h3>Container: Docker</h3>
+<h3>Container: Docker</h3>
     <ol>
         <li>Isolation and Consistency: Docker containers encapsulate applications and their dependencies, ensuring
             consistent behavior across different environments. This isolation prevents conflicts between software
@@ -113,7 +117,7 @@
             testing, and monitoring processes.</li>
     </ol>
 
-    <h3>Coordination and Node control: ZooKeeper</h3>
+<h3>Coordination and Node control: ZooKeeper</h3>
     <ol>
         <li>What is Apache ZooKeeper?
             <ol type="i">

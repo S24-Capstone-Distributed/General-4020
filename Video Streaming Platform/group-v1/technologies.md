@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tools & Technologies</title>
+    <h1>Tools & Technologies</h1>
 </head>
 
 <body>

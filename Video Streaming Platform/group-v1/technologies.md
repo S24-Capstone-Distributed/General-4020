@@ -1,4 +1,9 @@
-# Tools & Technologies
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tools & Technologies</title>
+</head>
+
 <body>
 ## Coding Language: Java
 - Familiarity and ease of use with JUnit, Maven, etc
@@ -51,39 +56,45 @@
   7. Ecosystem and Community: Docker has a vast ecosystem with pre-built images available on Docker Hub. The community actively contributes to maintaining and improving these images.
   8. DevOps Integration: Docker integrates seamlessly with DevOps tools, making it easier to automate deployment, testing, and monitoring processes.
 
-## Coordination and Node control: ZooKeeper
+<h3>Coordination and Node control: ZooKeeper</h3>
 
-<p>
-1. What is Apache ZooKeeper?
-  <ol type="i">
-    <li>Apache ZooKeeper is a distributed, open-source coordination service designed to simplify the development and management of distributed applications.</li>
-    <li>It provides a centralized place where distributed processes and services can store data, communicate, and coordinate their activities.</li>
-    <li>ZooKeeper exposes a simple set of primitives that higher-level services can use for synchronization, configuration maintenance, group management, and naming.</li>
-  </ol>
-2. Why Do We Need ZooKeeper?
-  <ol type="i">
-    <li>In a distributed system, multiple nodes or machines need to communicate and coordinate their actions.</li>
-    <li>Implementing coordination services from scratch is complex and prone to errors (e.g., race conditions, deadlocks).</li>
-    <li>ZooKeeper simplifies coordination by providing a consistent and reliable way for nodes to be aware of each other and work together.</li>
-  </ol>
-3. Key Features of ZooKeeper:
-  <ol type="i">
-    <li>Hierarchical Data Model: ZooKeeper organizes data in a tree-like structure called Znodes. These Znodes store information and maintain state.</li>
-    <li>Primitives: ZooKeeper offers primitives like locks, barriers, and queues for coordination.</li>
-    <li>Leader Election: ZooKeeper helps elect a leader among distributed nodes.</li>
-    <li>Failover and Recovery: It ensures system resilience by handling failover scenarios.</li>
-  </ol>
-4. Challenges in Distributed Systems and Why Coordination Is Hard:
-  <ol type="i">
-    <li>Coordination Challenge: Coordinating multiple systems in a distributed application.</li>
-    <li>Single Point of Failure: Traditional master-slave architecture has a single point of failure (the master node).</li>
-    <li>Synchronization Complexity: Ensuring synchronization across distributed nodes is not straightforward.</li>
-    <li>Design and Implementation: Careful design and implementation are necessary.</li>
-  </ol>
-5. Use Cases and Applications:
-  <ol type="i">
-  <li>Hadoop: ZooKeeper coordinates Hadoop’s distributed components.</li>
-  <li>Kafka: Kafka brokers use ZooKeeper for leader election and topic management.</li>
-  </ol>
-</p>
+<ol type="1">
+  <li>What is Apache ZooKeeper?
+    <ol type="i">
+      <li>Apache ZooKeeper is a distributed, open-source coordination service designed to simplify the development and management of distributed applications.</li>
+      <li>It provides a centralized place where distributed processes and services can store data, communicate, and coordinate their activities.</li>
+      <li>ZooKeeper exposes a simple set of primitives that higher-level services can use for synchronization, configuration maintenance, group management, and naming.</li>
+    </ol>
+  </li>
+  <li>Why Do We Need ZooKeeper?
+    <ol type="i">
+      <li>In a distributed system, multiple nodes or machines need to communicate and coordinate their actions.</li>
+      <li>Implementing coordination services from scratch is complex and prone to errors (e.g., race conditions, deadlocks).</li>
+      <li>ZooKeeper simplifies coordination by providing a consistent and reliable way for nodes to be aware of each other and work together.</li>
+    </ol>
+  </li>
+  <li>Key Features of ZooKeeper:
+    <ol type="i">
+      <li>Hierarchical Data Model: ZooKeeper organizes data in a tree-like structure called Znodes. These Znodes store information and maintain state.</li>
+      <li>Primitives: ZooKeeper offers primitives like locks, barriers, and queues for coordination.</li>
+      <li>Leader Election: ZooKeeper helps elect a leader among distributed nodes.</li>
+      <li>Failover and Recovery: It ensures system resilience by handling failover scenarios.</li>
+    </ol>
+  </li>
+  <li>Challenges in Distributed Systems and Why Coordination Is Hard:
+    <ol type="i">
+      <li>Coordination Challenge: Coordinating multiple systems in a distributed application.</li>
+      <li>Single Point of Failure: Traditional master-slave architecture has a single point of failure (the master node).</li>
+      <li>Synchronization Complexity: Ensuring synchronization across distributed nodes is not straightforward.</li>
+      <li>Design and Implementation: Careful design and implementation are necessary.</li>
+    </ol>
+  </li>
+  <li>Use Cases and Applications:
+    <ol type="i">
+    <li>Hadoop: ZooKeeper coordinates Hadoop’s distributed components.</li>
+    <li>Kafka: Kafka brokers use ZooKeeper for leader election and topic management.</li>
+    </ol>
+  </li>
+</ol>
 </body>
+</html>

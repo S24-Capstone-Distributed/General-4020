@@ -72,15 +72,15 @@
 - The details for this task are stored in the database and can be accessed using the task ID.
 
 **Basic Flow:**
-1. Take message off of RabbitMQ containing the task ID.
-2. Log in the database that this task ID was taken off with details about the container that is processing it.
+1. Take message off of the message bus / queue containing the task ID.
+2. Share on the message bus / queue a TaskReceived event and log it to the database.
 3. Retrieve task details from the database using the provided task ID.
 4. Pull the necessary video file from the object store based on the task details.
-5. Log in the database that the video file has been pulled for transcoding.
+5. Share on the message bus / queue a VideoFilePulled event and log it to the database.
 6. Transcode the video file to desired resolutions and bitrates.
-7. Log in the database that the video has been transcoded.
+7. Share on the message bus / queue a VideoTranscoded event and log it to the database. 
 8. Upload the transcoded video file back to the storage service.
-9. Log in the database that the transcoded video has been uploaded.
+9. Share on the message bus / queue a TranscodedVideoUploaded event and log it to the database.  
 
 ## Autoscaling Workflow
 
@@ -95,10 +95,10 @@
 3. The coordinating node aggregates the CPU utilization data from all worker nodes.
 4. If the average CPU utilization across all worker nodes is high:
    - The coordinating node initiates the spinning up of additional worker nodes to handle the increased workload.
-   - Log in the database that a new worker node was spun up.
+   -  Share on the message bus / queue a WorkerNodeScaledUp event and log it to the database.   
 5. If the average CPU utilization across all worker nodes is very low:
    - The coordinating node blocks underutilized nodes from receiving any more work and schedules them for shutdown after they finish their current tasks.
-   - Once a node is shut down, log in the database that it was shut down.
+   - Once a node is shut down, share on the message bus / queue a WorkerNodeScaledDown event and log it to the database.   
 6. Continuously monitor and adjust the number of worker nodes as needed based on the aggregated CPU utilization data from all worker nodes.
 
 ## Error Handling: Functional Container Error
@@ -112,17 +112,17 @@
 - The functional container is still functioning but has encountered an error during its operation.
 
 **Basic Flow:**
-1. Upon encountering an error, the functional container logs the error message and increments the retry counter for the task.
-2. The system checks the retry count against a predefined threshold to determine whether to retry the operation or escalate the issue.
-3. If the error is in pulling or pushing:
+1. Upon encountering an error within the container there are two options.
+2. If the error is in pulling or pushing:
+   - The system checks the retry count against a predefined threshold to determine whether to retry the operation or escalate the issue.
    - If the retry count is below the threshold:
      - The system retries the operation after a brief delay to allow for potential transient issues to resolve, utilizing exponential backoff.
      - If the retry is successful, the task continues as normal.
    - If the retry count exceeds the threshold:
-     - The system escalates the issue to system administrators or designated personnel for manual intervention.
+     - The container shares on the message bus / queue a ContainerErrorEscalation event, logs it to the database, and then goes on to work on other tasks.   
 4. If the error is in transcoding:
    - The system does not retry the transcoding operation as it's unlikely to be resolved by retries.
-   - The system immediately escalates the issue to system administrators or designated personnel for manual intervention.
+   - The container shares on the message bus / queue a ContainerErrorEscalation event, logs it to the database, and then goes on to work on other tasks. 
 5. System administrators investigate the root cause of the error and take appropriate actions to resolve it, such as adjusting configurations, restarting the container, or reallocating resources.
 6. Once the issue is resolved, the system updates the task status accordingly and resumes processing.
 7. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
@@ -147,8 +147,8 @@
 **Basic Flow:**
 1. The system monitors container health through heartbeat signals or other health checks.
 2. Upon detecting a container failure through the heartbeat protocol described below, the node in charge of error handling marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
-3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a status event with the task ID to requeue to the machine in charge of requeing failed tasks. 
-4. A status event will also be sent to administrators in case they want to investigate the root cause of the container failure.
+3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a ContainerFailureDetected event on the message bus / queue, which contains the task ID to requeue and logging it to the database. 
+4. There will be a machine in charge of requeueing tasks listening on the queue in order to requeue these faied tasks.
 5. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
 
 **Alternative Flows:**

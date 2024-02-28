@@ -65,14 +65,14 @@
     <li>In a distributed system, multiple nodes or machines need to communicate and coordinate their actions.</li>
     <li>Implementing coordination services from scratch is complex and prone to errors (e.g., race conditions, deadlocks).</li>
     <li>ZooKeeper simplifies coordination by providing a consistent and reliable way for nodes to be aware of each other and work together.</li>
-  <ol>
+  </ol>
 3. Key Features of ZooKeeper:
   <ol type="i">
     <li>Hierarchical Data Model: ZooKeeper organizes data in a tree-like structure called Znodes. These Znodes store information and maintain state.</li>
     <li>Primitives: ZooKeeper offers primitives like locks, barriers, and queues for coordination.</li>
     <li>Leader Election: ZooKeeper helps elect a leader among distributed nodes.</li>
     <li>Failover and Recovery: It ensures system resilience by handling failover scenarios.</li>
-  <ol>
+  </ol>
 4. Challenges in Distributed Systems and Why Coordination Is Hard:
   <ol type="i">
     <li>Coordination Challenge: Coordinating multiple systems in a distributed application.</li>

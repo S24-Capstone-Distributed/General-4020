@@ -6,6 +6,61 @@
 - [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
 - [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
 
+## Relevant Events and Descriptions
+
+### 1. TaskReceived
+**Description:** Event triggered when a new video transcoding task is received from the message bus / queue.
+
+### 2. TaskDetailsRetrieved
+**Description:** Event triggered after retrieving task details from the database using the provided task ID.
+
+### 3. VideoFilePulled
+**Description:** Event triggered after successfully pulling the necessary video file from the object store based on the task details.
+
+### 4. VideoTranscoded
+**Description:** Event triggered after the video file has been transcoded to desired resolutions and bitrates.
+
+### 5. TranscodedVideoUploaded
+**Description:** Event triggered after successfully uploading the transcoded video file back to the storage service.
+
+### 6. WorkerNodeScaledUp
+**Description:** Event triggered when a new worker node is spun up to handle increased workload due to high CPU utilization.
+
+### 7. WorkerNodeScaledDown
+**Description:** Event triggered when an underutilized worker node is scheduled for shutdown after finishing its current tasks.
+
+### 8. ContainerErrorRetry
+**Description:** Event triggered when an error is encountered during the processing of a video transcoding task, and the system retries the operation.
+
+### 9. ContainerErrorEscalation
+**Description:** Event triggered when an error is encountered during the processing of a video transcoding task, and the issue is escalated to system administrators for manual intervention.
+
+### 10. ContainerFailureDetected
+**Description:** Event triggered upon detecting a failure of the container within the processing pod, initiating recovery procedures.
+
+### 11. HeartbeatReceived
+**Description:** Event triggered upon receiving a heartbeat signal from a container or pod within the system.
+
+### 12. GossipTableMerged
+**Description:** Event triggered after merging received gossip tables to ensure consistency and update records accordingly.
+
+### 13. ContainerScaledUp
+**Description:** Event triggered when additional containers are launched to distribute workload and alleviate resource constraints during workload processing.
+
+### 14. ContainerScaledDown
+**Description:** Event triggered when containers are shut down after finishing their current jobs to optimize resource utilization during workload processing.
+
+### 15. ResourceUtilizationThresholdReached
+**Description:** Event triggered when CPU or RAM utilization reaches predefined thresholds during workload processing, prompting scaling actions.
+
+### 16. WorkloadProcessingStarted
+**Description:** Event triggered when a container starts processing a video transcoding task, signaling its activity.
+
+### 17. WorkloadProcessingFinished
+**Description:** Event triggered when a container finishes processing a video transcoding task, signaling its inactivity.
+
+### 18. TaskFailed
+**Description:** Event triggered when a video transcoding task fails to complete due to errors or issues encountered during processing.
 
 ## Client Requests Processing of Video
 

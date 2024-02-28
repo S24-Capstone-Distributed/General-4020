@@ -5,18 +5,18 @@
 </head>
 
 <body>
-## Coding Language: Java
+<h3>Coding Language: Java</h3>
 - Familiarity and ease of use with JUnit, Maven, etc
 
-## Testing: JUnit
+<h3>Testing: JUnit</h3>
 - Familiarity with the testing capabilities of JUnit
 - Used side-by-side with Java
   
-## Project setup and integration: Maven
+<h3>Project setup and integration: Maven</h3>
 - Familiarity and ease of use
 - Powerful package and project tool
   
-## Software Tools: S3 AWS CLI
+<h3>Software Tools: S3 AWS CLI</h3>
 - **link**: https://www.bing.com/ck/a?!&&p=094012c9f504f432JmltdHM9MTcwOTA3ODQwMCZpZ3VpZD0yZTg1OGVlYS02MmRjLTYwNjUtMjgwYS05ZTk3NjNiODYxZDMmaW5zaWQ9NTIxMA&ptn=3&ver=2&hsh=3&fclid=2e858eea-62dc-6065-280a-9e9763b861d3&psq=What+is+the+S3+CLI&u=a1aHR0cHM6Ly9kb2NzLmF3cy5hbWF6b24uY29tL2NsaS9sYXRlc3QvdXNlcmd1aWRlL2NsaS1zZXJ2aWNlcy1zMy5odG1s&ntb=1
 - The S3 CLI (Command Line Interface) is a powerful tool provided by Amazon Web Services (AWS) for managing and interacting with Amazon Simple Storage Service (S3).
 - Here are some key points about the S3 CLI:
@@ -46,16 +46,17 @@
     - To move an S3 object to a different location: aws s3 mv s3://mybucket/myobject s3://mybucket/newprefix/myobject
     - To delete an S3 object: aws s3 rm s3://mybucket/myobject
 
-## Container: Docker
-  1. Isolation and Consistency: Docker containers encapsulate applications and their dependencies, ensuring consistent behavior across different environments. This isolation prevents conflicts between software components.
-  2. Portability: Containers can run consistently on any platform that supports Docker, whether it’s your local development machine, a cloud server, or a production environment. This portability simplifies deployment and reduces compatibility issues.
-  3. Efficient Resource Utilization: Docker containers share the host OS kernel, which makes them lightweight. Unlike virtual machines (VMs), containers don’t require a full OS stack for each instance, leading to better resource utilization.
-  4. Rapid Deployment: Docker allows you to create, start, and stop containers quickly. This agility is essential for modern development practices like continuous integration and continuous deployment (CI/CD).
-  5. Scalability: Docker containers can be easily scaled horizontally by spinning up multiple instances. This flexibility enables efficient handling of varying workloads.
-  6. Version Control: Docker images are versioned, allowing you to track changes and roll back to previous versions if needed. This version control simplifies software maintenance.
-  7. Ecosystem and Community: Docker has a vast ecosystem with pre-built images available on Docker Hub. The community actively contributes to maintaining and improving these images.
-  8. DevOps Integration: Docker integrates seamlessly with DevOps tools, making it easier to automate deployment, testing, and monitoring processes.
-
+<h3>Container: Docker</h3>
+<ol type="1">
+  <li> Isolation and Consistency: Docker containers encapsulate applications and their dependencies, ensuring consistent behavior across different environments. This isolation prevents conflicts between software components.</li>
+  <li> Portability: Containers can run consistently on any platform that supports Docker, whether it’s your local development machine, a cloud server, or a production environment. This portability simplifies deployment and reduces compatibility issues.</li>
+  <li> Efficient Resource Utilization: Docker containers share the host OS kernel, which makes them lightweight. Unlike virtual machines (VMs), containers don’t require a full OS stack for each instance, leading to better resource utilization.</li>
+  <li> Rapid Deployment: Docker allows you to create, start, and stop containers quickly. This agility is essential for modern development practices like continuous integration and continuous deployment (CI/CD).</li>
+  <li> Scalability: Docker containers can be easily scaled horizontally by spinning up multiple instances. This flexibility enables efficient handling of varying workloads.</li>
+  <li> Version Control: Docker images are versioned, allowing you to track changes and roll back to previous versions if needed. This version control simplifies software maintenance.</li>
+  <li> Ecosystem and Community: Docker has a vast ecosystem with pre-built images available on Docker Hub. The community actively contributes to maintaining and improving these images.</li>
+  <li> DevOps Integration: Docker integrates seamlessly with DevOps tools, making it easier to automate deployment, testing, and monitoring processes.</li>
+</ol>
 <h3>Coordination and Node control: ZooKeeper</h3>
 
 <ol type="1">

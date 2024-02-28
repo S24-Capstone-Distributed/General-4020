@@ -114,11 +114,15 @@
 **Basic Flow:**
 1. Upon encountering an error, the functional container logs the error message and increments the retry counter for the task.
 2. The system checks the retry count against a predefined threshold to determine whether to retry the operation or escalate the issue.
-3. If the retry count is below the threshold:
-   - The system retries the operation after a brief delay to allow for potential transient issues to resolve.
-   - If the retry is successful, the task continues as normal.
-4. If the retry count exceeds the threshold:
-   - The system escalates the issue to system administrators or designated personnel for manual intervention.
+3. If the error is in pulling or pushing:
+   - If the retry count is below the threshold:
+     - The system retries the operation after a brief delay to allow for potential transient issues to resolve, utilizing exponential backoff.
+     - If the retry is successful, the task continues as normal.
+   - If the retry count exceeds the threshold:
+     - The system escalates the issue to system administrators or designated personnel for manual intervention.
+4. If the error is in transcoding:
+   - The system does not retry the transcoding operation as it's unlikely to be resolved by retries.
+   - The system immediately escalates the issue to system administrators or designated personnel for manual intervention.
 5. System administrators investigate the root cause of the error and take appropriate actions to resolve it, such as adjusting configurations, restarting the container, or reallocating resources.
 6. Once the issue is resolved, the system updates the task status accordingly and resumes processing.
 7. Progress updates and status changes are logged to the database for monitoring and tracking purposes.

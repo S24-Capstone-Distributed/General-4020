@@ -13,7 +13,7 @@
 ![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/4a4402f2-d85e-4f27-8873-052b87ceb09e)
 
 ## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
-![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/8d0d6683-6246-4b63-aa58-05dfb27c4dd6)
+![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/1cd10f80-5b59-41bd-a05b-d922c3204df1)
 
 ## [Error Handling: Container Failure](scope.md#error-handling-container-failure):
 ![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/38eec6e7-dbe3-4d86-b377-2c091cda55f2)

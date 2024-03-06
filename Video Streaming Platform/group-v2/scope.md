@@ -70,21 +70,21 @@ Given a client request received over the message bus / queue with a task ID
 
 When the message is taken off of the message bus / queue
 
-Then a TaskReceived event is shared on the message bus / queue and logged to the database
+Then a TaskReceived event is logged to the database
 
 And task details are retrieved from the database using the provided task ID
 
 And the necessary video file is pulled from the object store based on the task details
 
-Then a VideoFilePulled event is shared on the message bus / queue and logged to the database
+Then a VideoFilePulled event is logged to the database
 
 And the video file is transcoded to desired resolutions and bitrates
 
-Then a VideoTranscoded event is shared on the message bus / queue and logged to the database
+Then a VideoTranscoded event is logged to the database
 
 And the transcoded video file is uploaded back to the storage service
 
-Then a TranscodedVideoUploaded event is shared on the message bus / queue and logged to the database
+Then a TranscodedVideoUploaded event is logged to the database
 
 
 ## Feature: Autoscaling Workflow
@@ -101,13 +101,13 @@ Then if the average CPU utilization across all worker nodes is high
 
 And additional worker nodes are initiated to handle the increased workload
 
-Then a WorkerNodeScaledUp event is shared on the message bus / queue and logged to the database
+Then a WorkerNodeScaledUp event is logged to the database
 
 But if the average CPU utilization across all worker nodes is very low
 
 And underutilized nodes are scheduled for shutdown after finishing current tasks
 
-Then a WorkerNodeScaledDown event is shared on the message bus / queue and logged to the database
+Then a WorkerNodeScaledDown event is logged to the database
 
 And the number of worker nodes is continuously monitored and adjusted based on CPU utilization
 
@@ -128,7 +128,7 @@ And if the retry count is below the threshold, the operation is retried with exp
 
 But if the retry count exceeds the threshold, the error is escalated
 
-Then a ContainerErrorEscalation event is shared on the message bus / queue and logged to the database
+Then a ContainerErrorEscalation event is logged to the database
 
 And system administrators investigate and resolve the issue
 
@@ -147,7 +147,7 @@ When the failure is detected through the heartbeat protocol
 
 Then affected tasks are marked as "failed" or "incomplete" and recovery procedures are initiated
 
-And a ContainerFailureDetected event is shared on the message bus / queue and logged to the database
+And a ContainerFailureDetected event is logged to the database
 
 And failed tasks are requeued for processing
 
@@ -187,6 +187,6 @@ When containers dynamically scale within a node during workload processing
 
 Then containers start or stop based on CPU and RAM utilization thresholds
 
-And events are shared on the message bus / queue and logged for monitoring
+And events are logged for monitoring
 
 And the number of containers is continuously adjusted based on workload demands

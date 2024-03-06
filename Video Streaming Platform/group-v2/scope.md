@@ -1,10 +1,12 @@
 ## Table of Contents
-- [Client Requests Processing of Video](#client-requests-processing-of-video)
-- [Autoscaling Workflow](#autoscaling-workflow)
-- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
-- [Error Handling: Container Failure](#error-handling-container-failure)
-- [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
-- [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
+
+1. [Client Requests Processing of Video](#feature-client-requests-processing-of-video)
+2. [Autoscaling Workflow](#feature-autoscaling-workflow)
+3. [Error Handling - Functional Container Error](#feature-error-handling-functional-container-error)
+4. [Error Handling - Container Failure](#feature-error-handling-container-failure)
+5. [Gossip-Based Heartbeat Protocol Between Containers/Pods](#feature-gossip-based-heartbeat-protocol-between-containerspods)
+6. [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#feature-dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
+
 
 ## Relevant Events and Descriptions
 

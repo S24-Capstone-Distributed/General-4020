@@ -61,15 +61,25 @@
 ## Feature: Client Requests Processing of Video
 
 Scenario: Processing of Video Task
+
 Given a client request received over the message bus / queue with a task ID
+
 When the message is taken off of the message bus / queue
+
 Then a TaskReceived event is shared on the message bus / queue and logged to the database
+
 And task details are retrieved from the database using the provided task ID
+
 And the necessary video file is pulled from the object store based on the task details
+
 Then a VideoFilePulled event is shared on the message bus / queue and logged to the database
+
 And the video file is transcoded to desired resolutions and bitrates
+
 Then a VideoTranscoded event is shared on the message bus / queue and logged to the database
+
 And the transcoded video file is uploaded back to the storage service
+
 Then a TranscodedVideoUploaded event is shared on the message bus / queue and logged to the database
 
 ## Feature: Autoscaling Workflow

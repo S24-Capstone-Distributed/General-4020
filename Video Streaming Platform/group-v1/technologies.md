@@ -163,6 +163,23 @@
             </ol>
         </li>
     </ol>
+    <h3>Load Balancing with Nginx (Round Robin)</h3>
+<ol>
+    <li><strong>Round Robin Method:</strong>
+        <ol type="a">
+            <li><strong>Equitable Distribution:</strong> The Round Robin algorithm within Nginx operates by rotating through a list of available servers and distributing incoming client requests in a sequential manner. Each new request is sent to the next server in the list, and once the end of the list is reached, the algorithm cycles back to the first server. This cycle repeats continuously, ensuring that every server receives an equal number of requests over time.</li>
+            <li><strong>Implementation Simplicity:</strong> One of the primary advantages of the Round Robin method is its simplicity. There is no need to keep track of the current load or capacity of each server; instead, requests are distributed based solely on the order of servers in the configuration file. This simplicity makes it an ideal choice for many load balancing scenarios, particularly when the servers are of similar capacity and load.</li>
+            <li><strong>Automatic Scalability:</strong> Adding or removing servers from the Nginx configuration automatically adjusts the Round Robin cycle. This adaptability is crucial for dynamic environments where the server pool might change due to scaling operations or maintenance tasks. The algorithm seamlessly accommodates these changes without requiring a reconfiguration of the load balancing logic.</li>
+        </ol>
+    </li>
+    <li><strong>Benefits for Application Architecture:</strong>
+        <ol type="a">
+            <li><strong>Load Equalization:</strong> The Round Robin approach ensures an even distribution of requests, which can help in preventing any single server from becoming a performance bottleneck. This distribution is especially beneficial in environments where servers have equivalent processing capabilities.</li>
+            <li><strong>Simplified High Availability:</strong> By spreading requests across multiple servers, Round Robin enhances the overall availability of the application. If a server becomes unavailable, the next request simply moves to the following available server in the cycle, minimizing downtime and service disruption.</li>
+            <li><strong>Predictable Scaling:</strong> As the application demand grows, new servers can be added to the pool without significantly impacting the existing infrastructure. The Round Robin method naturally incorporates these new servers into its rotation, facilitating straightforward horizontal scaling.</li>
+        </ol>
+    </li>
+</ol>
 </body>
 
 </html>

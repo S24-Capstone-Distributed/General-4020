@@ -4,7 +4,7 @@
 
 ## Project Plan
 
-- [Scope and Use Cases](scope.md)
+- [Scope and Use Cases](Scope.md)
 - [Distributed System Challenges](challenges.md)
 - [Workflow Diagrams (BPMN)](workflow.md)
 - [Software Architecture Diagrams (C4)](architecture.md)

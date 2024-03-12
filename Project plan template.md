@@ -8,7 +8,7 @@ Each section of the project plan will be in its own markdown file. Below is the 
 
 Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application.
 
-## Scope and Use Cases
+## Scope (Scenarios covered)
 
 ### scope.md
 

@@ -12,7 +12,7 @@ Provide a short introduction, summary and functional overview of what your proje
 
 ### scope.md
 
-Define the scope of your development and what you will deliver in terms of use cases.  List all the use cases you will be supporting. Link to the workflow diagrams when appropriate. Do not forget about error cases, which will include node and service failures and the recovery that is expected.
+Define the scope of your development and what you will deliver in terms of use cases.  List all the scenarios you will be supporting. Link to the workflow diagrams when appropriate. Do not forget about error cases, which will include node and service failures and the recovery that is expected.
 
 ## Distributed System Challenges
 

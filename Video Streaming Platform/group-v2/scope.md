@@ -26,7 +26,7 @@
 **Description:** Event triggered after successfully uploading the transcoded video file back to the storage service.
 
 ### 6. WorkerNodeScaledUp
-**Description:** Event triggered when a new worker node is spun up to handle increased workload due to high CPU utilization.
+**Description:** Event triggered when a new worker node is spun up to handle increased workload.
 
 ### 7. WorkerNodeScaledDown
 **Description:** Event triggered when an underutilized worker node is scheduled for shutdown after finishing its current tasks.
@@ -66,13 +66,11 @@
 
 Scenario: Processing of Video Task
 
-Given a client request received over the message bus / queue with a task ID
+Given a client request received over the message bus / queue
 
 When the message is taken off of the message bus / queue
 
 Then a TaskReceived event is logged to the database
-
-And task details are retrieved from the database using the provided task ID
 
 And the necessary video file is pulled from the object store based on the task details
 

@@ -87,27 +87,66 @@ Then a TranscodedVideoUploaded event is logged to the database
 
 ## Feature: Autoscaling Workflow
 
-Scenario: Dynamic Scaling Based on CPU Utilization
+Scenario: Dynamic Scaling Based on Queue Size
 
-Given the system is actively processing video transcoding tasks
+Given the video processing system is running
 
-When each worker node continuously monitors its own CPU and RAM utilization
+When the service continuously monitors the queue length
 
-And worker nodes share their utilization data with the coordinating node
+Then it compares the queue length to a pre-defined range
 
-Then if the average CPU utilization across all worker nodes is high
+And if the queue length is within the range
 
-And additional worker nodes are initiated to handle the increased workload
+Then the system configuration remains the same
 
-Then a WorkerNodeScaledUp event is logged to the database
 
-But if the average CPU utilization across all worker nodes is very low
+And if the queue length is too high
 
-And underutilized nodes are scheduled for shutdown after finishing current tasks
+And the ratio of containers to nodes is above a pre-defined threshold
 
-Then a WorkerNodeScaledDown event is logged to the database
+Then start up a new node
 
-And the number of worker nodes is continuously monitored and adjusted based on CPU utilization
+And a WorkerNodeScaledUp event is logged to the database
+
+And start up a new container on that node
+
+And a ContainerScaledUp event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then start up a new container
+
+And a ContainerScaledUp event is logged to the database
+
+
+And if the queue length is too low
+
+And the ratio of containers to nodes is above a pre-defined threshold
+
+Then stop sending work to a container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then stop sending work to a specific container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And copy over any containers running on that node to another node
+
+And shut down the node
+
+And a WorkerNodeScaledDown event is logged to the database
+
+
+And the system continues to monitor queue length
+
+And dynamically adjusts nodes and containers accordingly
 
 
 ## Feature: Error Handling - Functional Container Error

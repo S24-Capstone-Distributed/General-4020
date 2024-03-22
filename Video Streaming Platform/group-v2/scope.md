@@ -4,8 +4,6 @@
 2. [Autoscaling Workflow](#feature-autoscaling-workflow)
 3. [Error Handling - Functional Container Error](#feature-error-handling-functional-container-error)
 4. [Error Handling - Container Failure](#feature-error-handling-container-failure)
-5. [Gossip-Based Heartbeat Protocol Between Containers/Pods](#feature-gossip-based-heartbeat-protocol-between-containerspods)
-6. [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#feature-dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
 
 
 ## Relevant Events and Descriptions
@@ -180,50 +178,12 @@ Given the system is actively processing video transcoding tasks
 
 And a container within the processing pod fails
 
-When the failure is detected through the heartbeat protocol
+When the failure is detected by Docker Swarm
 
-Then affected tasks are marked as "failed" or "incomplete" and recovery procedures are initiated
+Then a new container is automatically spawned
 
 And a ContainerFailureDetected event is logged to the database
 
 And failed tasks are requeued for processing
 
 And progress updates and status changes are logged for monitoring purposes
-
-
-## Feature: Gossip-Based Heartbeat Protocol Between Containers/Pods
-
-Scenario: Exchange of Heartbeat Signals
-
-Given the system consists of multiple containers or pods
-
-And gossip-based heartbeat mechanisms are implemented within them
-
-When each container or pod periodically sends heartbeat signals to random subsets of peers
-
-Then upon receiving a heartbeat signal, the activity timestamp is updated
-
-And the received gossip table is merged and updated accordingly
-
-And inactive or failed peers are identified and managed
-
-And monitoring systems track heartbeat signals and raise alerts for abnormalities
-
-
-## Feature: Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing
-
-Scenario: Dynamic Scaling Based on CPU/RAM Utilization
-
-Given the system utilizes container orchestration platforms
-
-And CPU and RAM utilization metrics are available for monitoring
-
-And workload processing involves CPU and RAM-intensive tasks
-
-When containers dynamically scale within a node during workload processing
-
-Then containers start or stop based on CPU and RAM utilization thresholds
-
-And events are logged for monitoring
-
-And the number of containers is continuously adjusted based on workload demands

@@ -3,23 +3,15 @@
 - [Autoscaling Workflow](#autoscaling-workflow)
 - [Error Handling: Functional Container Error](#error-handling-functional-container-error)
 - [Error Handling: Container Failure](#error-handling-container-failure)
-- [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
-- [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
 
 ## [Client Requests Processing of Video](scope.md#client-requests-processing-of-video):
-![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/119f0d7d-0438-42e8-b3f2-269919d13d4f)
+![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/fc03d093-59df-4c87-8e35-dad761d74557)
 
 ## [Autoscaling Workflow](scope.md#autoscaling-workflow):
-![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/4a4402f2-d85e-4f27-8873-052b87ceb09e)
+![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/353ff1dd-f822-401e-9f42-9eb78ec49dab)
 
 ## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
-![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/b83a5c79-101c-4175-9d9a-f5ce0949379c)
+![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/725da694-a0fe-497a-91c8-3b5e51eca0c7)
 
 ## [Error Handling: Container Failure](scope.md#error-handling-container-failure):
-![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/38eec6e7-dbe3-4d86-b377-2c091cda55f2)
-
-## [Gossip-Based Heartbeat Protocol Between Containers/Pods](scope.md#gossip-based-heartbeat-protocol-between-containerspods):
-![VideoProcessing_Hearbeats](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/10dada27-57f2-4c27-a0c1-ff840ae31172)
-
-## [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](scope.md#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing):
-![VideoProcessing_DynamicScalingWithinNode](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/bb85bfbb-388d-43ab-a793-0335488e397b)
+![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/62673270-8cf5-49fe-bb39-b61b31cc7d38)

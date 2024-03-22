@@ -1,6 +1,6 @@
 ## Overview
 
-System architecture overview (see [here](workflow.md#client-requests-processing-of-video) for basic use case; for how autoscaling at the node level works, see [here](workflow.md#autoscaling-workflow); for how autoscaling at the container level works, see [here](workflow.md#dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)):
+System architecture overview (see [here](workflow.md#client-requests-processing-of-video) for basic use case; for how autoscaling works, see [here](workflow.md#autoscaling-workflow)):
 
 ![VideoProcessing_FINAL_Overview](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/fbf2ba4e-dc79-440b-8e28-e47d5efc6287)
 

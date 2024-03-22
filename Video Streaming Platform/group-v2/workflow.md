@@ -5,10 +5,10 @@
 - [Error Handling: Container Failure](#error-handling-container-failure)
 
 ## [Client Requests Processing of Video](scope.md#client-requests-processing-of-video):
-![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/fc03d093-59df-4c87-8e35-dad761d74557)
+![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/c4efcf4c-173f-408b-b494-1d9c260fac44)
 
 ## [Autoscaling Workflow](scope.md#autoscaling-workflow):
-![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/b6459b4e-10fb-4866-b1cd-8847330f7ab1)
+![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/46f01912-3670-4328-84b5-4fa596afd729)
 
 ## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
 ![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/725da694-a0fe-497a-91c8-3b5e51eca0c7)

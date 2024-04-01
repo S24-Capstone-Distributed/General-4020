@@ -12,9 +12,9 @@
 - **Reason for Use:** Lightweight containerization, consistent deployment across environments, and minimal setup.
 - **Considered Alternatives:** Other containerization solutions, but Docker's ease of use and popularity made it the preferred choice.
 
-## Kubernetes
+## Docker Swarm
 - **Reason for Use:** Orchestration and management of containerized services for scalability and resilience, offers us full control over system's deployment, scaling, and maintenance.
-- **Considered Alternatives:** Other orchestration tools, but Kubernetes' extensive features and community support made it the preferred choice.
+- **Considered Alternatives:** Other orchestration tools such as Kubernetes, but Docker Swarm's compatibility with Docker containers and ability to give us finer-grained control made it the preferred choice.
 
 ## RabbitMQ
 - **Reason for Use:** Reliable messaging system, support for various messaging patterns, integration with Java, and ease of use.
@@ -32,6 +32,6 @@
 - **Reason for Use:** Comprehensive and robust multimedia processing tools for efficient video segmentation and transcoding, and widely used so reliable and stable.
 - **Considered Alternatives:** GStreamer, HandBrake, Libav, but FFmpeg's versatility, robustness, and widespread acceptance made it the preferred choice.
 
-## DynamoDB
-- **Reason for Use:** Simplicity and ease of management combined with project timeline and team experience with AWS, key-value database aligns with the type of data we're storing, and integration with AWS ecosystem.
-- **Considered Alternatives:** Apache Cassandra, Apache HBase, Google Cloud Bigtable, but they have steeper learning curves, more management complexity, and less integration with other technologies we're using.
+## MongoDB
+- **Reason for Use:** Simplicity and ease of management combined with project timeline, JSON-based data storage aligns with the type of data we're storing, and has a pre-made Docker image.
+- **Considered Alternatives:** Apache Cassandra, Apache HBase, Google Cloud Bigtable, but they have steeper learning curves and more management complexity.

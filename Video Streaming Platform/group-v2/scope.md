@@ -4,8 +4,6 @@
 2. [Autoscaling Workflow](#feature-autoscaling-workflow)
 3. [Error Handling - Functional Container Error](#feature-error-handling-functional-container-error)
 4. [Error Handling - Container Failure](#feature-error-handling-container-failure)
-5. [Gossip-Based Heartbeat Protocol Between Containers/Pods](#feature-gossip-based-heartbeat-protocol-between-containerspods)
-6. [Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing](#feature-dynamic-container-scaling-within-a-node-based-on-cpuram-utilization-during-workload-processing)
 
 
 ## Relevant Events and Descriptions
@@ -26,7 +24,7 @@
 **Description:** Event triggered after successfully uploading the transcoded video file back to the storage service.
 
 ### 6. WorkerNodeScaledUp
-**Description:** Event triggered when a new worker node is spun up to handle increased workload due to high CPU utilization.
+**Description:** Event triggered when a new worker node is spun up to handle increased workload.
 
 ### 7. WorkerNodeScaledDown
 **Description:** Event triggered when an underutilized worker node is scheduled for shutdown after finishing its current tasks.
@@ -66,13 +64,11 @@
 
 Scenario: Processing of Video Task
 
-Given a client request received over the message bus / queue with a task ID
+Given a client request received over the message bus / queue
 
 When the message is taken off of the message bus / queue
 
 Then a TaskReceived event is logged to the database
-
-And task details are retrieved from the database using the provided task ID
 
 And the necessary video file is pulled from the object store based on the task details
 
@@ -89,27 +85,66 @@ Then a TranscodedVideoUploaded event is logged to the database
 
 ## Feature: Autoscaling Workflow
 
-Scenario: Dynamic Scaling Based on CPU Utilization
+Scenario: Dynamic Scaling Based on Queue Size
 
-Given the system is actively processing video transcoding tasks
+Given the video processing system is running
 
-When each worker node continuously monitors its own CPU and RAM utilization
+When the service continuously monitors the queue length
 
-And worker nodes share their utilization data with the coordinating node
+Then it compares the queue length to a pre-defined range
 
-Then if the average CPU utilization across all worker nodes is high
+And if the queue length is within the range
 
-And additional worker nodes are initiated to handle the increased workload
+Then the system configuration remains the same
 
-Then a WorkerNodeScaledUp event is logged to the database
 
-But if the average CPU utilization across all worker nodes is very low
+And if the queue length is too high
 
-And underutilized nodes are scheduled for shutdown after finishing current tasks
+And the ratio of containers to nodes is above a pre-defined threshold
 
-Then a WorkerNodeScaledDown event is logged to the database
+Then start up a new node
 
-And the number of worker nodes is continuously monitored and adjusted based on CPU utilization
+And a WorkerNodeScaledUp event is logged to the database
+
+And start up a new container on that node
+
+And a ContainerScaledUp event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then start up a new container
+
+And a ContainerScaledUp event is logged to the database
+
+
+And if the queue length is too low
+
+And the ratio of containers to nodes is above a pre-defined threshold
+
+Then stop sending work to a container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then stop sending work to a specific container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And copy over any containers running on that node to another node
+
+And shut down the node
+
+And a WorkerNodeScaledDown event is logged to the database
+
+
+And the system continues to monitor queue length
+
+And dynamically adjusts nodes and containers accordingly
 
 
 ## Feature: Error Handling - Functional Container Error
@@ -143,50 +178,12 @@ Given the system is actively processing video transcoding tasks
 
 And a container within the processing pod fails
 
-When the failure is detected through the heartbeat protocol
+When the failure is detected by Docker Swarm
 
-Then affected tasks are marked as "failed" or "incomplete" and recovery procedures are initiated
+Then a new container is automatically spawned
 
 And a ContainerFailureDetected event is logged to the database
 
 And failed tasks are requeued for processing
 
 And progress updates and status changes are logged for monitoring purposes
-
-
-## Feature: Gossip-Based Heartbeat Protocol Between Containers/Pods
-
-Scenario: Exchange of Heartbeat Signals
-
-Given the system consists of multiple containers or pods
-
-And gossip-based heartbeat mechanisms are implemented within them
-
-When each container or pod periodically sends heartbeat signals to random subsets of peers
-
-Then upon receiving a heartbeat signal, the activity timestamp is updated
-
-And the received gossip table is merged and updated accordingly
-
-And inactive or failed peers are identified and managed
-
-And monitoring systems track heartbeat signals and raise alerts for abnormalities
-
-
-## Feature: Dynamic Container Scaling Within a Node Based on CPU/RAM Utilization During Workload Processing
-
-Scenario: Dynamic Scaling Based on CPU/RAM Utilization
-
-Given the system utilizes container orchestration platforms
-
-And CPU and RAM utilization metrics are available for monitoring
-
-And workload processing involves CPU and RAM-intensive tasks
-
-When containers dynamically scale within a node during workload processing
-
-Then containers start or stop based on CPU and RAM utilization thresholds
-
-And events are logged for monitoring
-
-And the number of containers is continuously adjusted based on workload demands

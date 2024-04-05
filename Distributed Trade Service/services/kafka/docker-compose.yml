@@ -39,4 +39,4 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       # Edit this line to add more kafka topics
-      KAFKA_CREATE_TOPICS: "PriceTopic:1:1"
+      KAFKA_CREATE_TOPICS: "PriceTopic:1:1,MarketValueTopic:1:1,ClientHoldingsTopic:1:1"

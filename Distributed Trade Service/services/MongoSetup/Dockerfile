@@ -23,9 +23,6 @@ RUN apt-get install -y bsdmainutils
 
 RUN dos2unix /usr/local/bin/*
 
-#Launch 2/3 of QueryDB tables
-COPY ./mongo-init /docker-entrypoint-initdb.d
-
 COPY priceTableSeedNew.csv ./data/priceTableSeedNew.csv
 COPY sampleClientHoldings.csv ./data/sampleClientHoldings.csv
 COPY marketValueSeed.csv ./data/marketValueSeed.csv

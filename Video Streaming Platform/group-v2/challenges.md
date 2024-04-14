@@ -39,10 +39,10 @@
 - Scale number of nodes based on numbers of containers.
 
 ### Redundancy
-- 
+- Deploy RabbitMQ as a cluster and handle the logistic issues that this presents, such as dynamically scaling the number of containers and coordinating which ports are used.
 
 ## Phase Two Enhancements
 
 - Network latency optimization. As long as the system works in a normal amount of time, that is good enough for now. In stage 2 we could work on optimizing the system and making it work even faster.
-- Deploy RabbitMQ as a cluster.
+- Deploy RabbitMQ as a cluster and handle the logistic issues that this presents, such as dynamically scaling the number of containers and coordinating which ports are used.
 - Configure graceful shutdowns of Docker containers.

@@ -22,6 +22,7 @@ RUN apt-get install -y kafkacat
 RUN apt-get install -y bsdmainutils
 
 RUN dos2unix /usr/local/bin/*
+RUN dos2unix ./seeddb.sh
 
 COPY priceTableSeedNew.csv ./data/priceTableSeedNew.csv
 COPY sampleClientHoldings.csv ./data/sampleClientHoldings.csv

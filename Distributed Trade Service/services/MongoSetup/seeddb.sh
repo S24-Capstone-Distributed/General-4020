@@ -11,4 +11,5 @@ mongoimport --host "mongodb" --port "27017" --db "QueryDB" --collection "stockIn
 echo "attaching connectors"
 cx /tutorials/sink_connector/priceupdatesink.json
 cx /tutorials/sink_connector/marketvaluesink.json
+cx /tutorials/sink_connector/observabilitysink.json
 status

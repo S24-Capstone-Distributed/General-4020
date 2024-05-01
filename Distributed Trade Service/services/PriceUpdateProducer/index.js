@@ -4,10 +4,9 @@
 
 import FastNoiseLite from "fastnoise-lite";
 import { Kafka } from "kafkajs";
-// const Fs = require("fs");
-import Fs, { realpath } from "fs";
-// const CsvReadableStream = require("csv-reader");
+import Fs from "fs";
 import CsvReadableStream from "csv-reader";
+import EventManager from './observability/EventManager.js'
 
 const publishToKakfa = process.env.PUBLISH_TO_KAFKA == "TRUE";
 
@@ -19,10 +18,15 @@ const kafka = publishToKakfa
     : "";
 
 const producer = publishToKakfa ? kafka.producer() : "";
+let observability;
 if (publishToKakfa) {
     console.log("Attempting to connect");
     await producer.connect();
+    observability = new EventManager(producer)
 }
+
+
+
 function readTickerFile() {
     const stocks = [];
     let inputStream = Fs.createReadStream(process.env.TICKER_FILE_PATH, "utf8");
@@ -93,18 +97,35 @@ async function sendPriceUpdateToKafka(ticker, price) {
         price,
         timestamp: Date.now(),
     };
+    try {
+        if (publishToKakfa) {
+            await producer.send({
+                topic: process.env.KAFKA_PRICE_TOPIC_NAME,
+                messages: [{ value: JSON.stringify(message) }],
+            });
+        }
+        console.log(`[T=${message.timestamp}] ${ticker} price: ${price}`);
+    } catch (error) {
+        console.error(`Error publishing ${ticker} price: ${error} to price topic`);
+    }
 
     try {
         if (publishToKakfa) {
             await producer.send({
-                topic: process.env.KAFKA_TOPIC_NAME,
-                messages: [{ value: JSON.stringify(message) }],
+                topic: process.env.KAFKA_CLIENT_HOLDINGS_TOPIC_NAME,
+                messages: [{ key: ticker, value: JSON.stringify(message) }],
             });
         }
-        console.log(`[T=${time}] ${ticker} price: ${price}`);
+        console.log(`[T=${message.timestamp}] ${ticker} price: ${price}`);
     } catch (error) {
-        console.error(`Error publishing ${ticker} price: ${error}`);
+        console.error(`Error publishing ${ticker} price: ${error} to client holdings topic`);
     }
+
+    if(observability) {
+        observability.sendEvent("price-producer-pool", Math.floor(Math.random() * 10000) + Date.now() + "", ticker, price)
+    }
+
+    
 }
 
 priceProducer();

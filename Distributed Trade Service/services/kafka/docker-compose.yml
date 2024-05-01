@@ -26,7 +26,7 @@ services:
     # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     #
-    image: confluentinc/cp-kafka:latest
+    build: .
     depends_on:
       - zookeeper
     ports:

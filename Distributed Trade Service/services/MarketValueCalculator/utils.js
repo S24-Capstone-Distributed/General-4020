@@ -24,7 +24,7 @@ export async function populatePriceMap(mongoClient, priceMap) {
         console.log(error);
     } finally {
         // Ensures that the client will close when you finish/error
-        console.log("Read all prices into price map");
+        console.log("Read all prices into price map", Object.keys(priceMap));
     }
 }
 
@@ -37,8 +37,8 @@ export async function populateHoldingsMap(mongoClient, holdingsMap) {
             if (!holdingsMap[result.ticker]) {
                 holdingsMap[result.ticker] = {};
             }
-            holdingsMap[result.ticker][result.clientID] = {
-                clientID: result.clientID,
+            holdingsMap[result.ticker][result.clientId] = {
+                clientId: result.clientId,
                 ticker: result.ticker,
                 quantity: result.quantity,
                 last_updated: result.last_updated,
@@ -64,7 +64,7 @@ export async function handlePriceUpdate(priceMap, holdingsMap, message, kafkapro
         Object.values(holdingsMap[message.ticker]).forEach(async (holding) => {
             console.log(holding)
             const data = {
-                clientID: holding.clientID,
+                clientId: holding.clientId,
                 ticker: message.ticker,
                 quantity: holding.quantity,
                 price: message.price,
@@ -85,14 +85,14 @@ export async function handleClientHoldingUpdate(priceMap, holdingsMap, message, 
     if (!holdingsMap[message.ticker]) {
         holdingsMap[message.ticker] = {};
     }
-    holdingsMap[message.ticker][message.clientID] = {
-        clientID: message.clientID,
+    holdingsMap[message.ticker][message.clientId] = {
+        clientId: message.clientId,
         ticker: message.ticker,
         quantity: message.quantity,
         last_updated: message.last_updated,
     };
     const data = {
-        clientID: message.clientID,
+        clientId: message.clientId,
         ticker: message.ticker,
         quantity: message.quantity,
         price: priceMap[message.ticker].price,
@@ -109,7 +109,7 @@ async function publishMarketValue(producer, data) {
         console.log("Attemting to publish message to kafka", data);
         await producer.send({
             topic: process.env.MARKET_VALUE_TOPIC,
-            messages: [{ key: data.clientID + data.ticker, value: JSON.stringify(data) }],
+            messages: [{ key: data.clientId + data.ticker, value: JSON.stringify(data) }],
         });
         console.log("Sent message successfully");
     } catch (error) {

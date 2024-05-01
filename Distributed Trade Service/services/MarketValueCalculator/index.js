@@ -31,7 +31,8 @@ await populatePriceMap(client, priceMap);
 
 // Create event manager
 const poolId = "mvc-pool";
-const eventManager = new EventManager(producer, process.env.MACHINE_ID);
+const machineId = process.env.MACHINE_ID != undefined ? process.env.MACHINE_ID : Math.floor(Math.random() * 100000);
+const eventManager = new EventManager(producer, machineId);
 
 /**
  * holdingsMap will keep client holdings in memory so that we dont need to query the db everytime

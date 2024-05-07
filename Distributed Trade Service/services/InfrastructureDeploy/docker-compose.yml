@@ -55,13 +55,13 @@ services:
     networks:
       - trade-server-network
 
-  mongodb:
-    image: ghcr.io/s24-capstone-distributed/tradeservermongo:latest
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    networks:
-      - trade-server-network
+  # mongodb:
+  #   image: ghcr.io/s24-capstone-distributed/tradeservermongo:latest
+  #   container_name: mongodb
+  #   ports:
+  #     - "27017:27017"
+  #   networks:
+  #     - trade-server-network
 
   # mongoseeder:
   #   image: ghcr.io/s24-capstone-distributed/tradeservermongosetup:latest
@@ -83,13 +83,13 @@ services:
     networks:
       - trade-server-network
 
-  postgresdb:
-    image: ghcr.io/s24-capstone-distributed/tradeserverpostgres:latest
-    restart: always
-    networks:
-      - trade-server-network
-    ports:
-      - "5432:5432"
+  # postgresdb:
+  #   image: ghcr.io/s24-capstone-distributed/tradeserverpostgres:latest
+  #   restart: always
+  #   networks:
+  #     - trade-server-network
+  #   ports:
+  #     - "5432:5432"
 
   grafana:
     image: grafana/grafana-oss

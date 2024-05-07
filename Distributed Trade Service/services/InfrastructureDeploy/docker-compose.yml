@@ -63,13 +63,13 @@ services:
     networks:
       - trade-server-network
 
-  mongoseeder:
-    image: ghcr.io/s24-capstone-distributed/tradeservermongosetup:latest
-    container_name: mongoseeder
-    networks:
-      - trade-server-network
-    depends_on:
-      - mongodb
+  # mongoseeder:
+  #   image: ghcr.io/s24-capstone-distributed/tradeservermongosetup:latest
+  #   container_name: mongoseeder
+  #   networks:
+  #     - trade-server-network
+  #   depends_on:
+  #     - mongodb
 
   kafka-ui:
     container_name: kafka-ui

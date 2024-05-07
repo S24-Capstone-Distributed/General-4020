@@ -23,7 +23,7 @@ services:
       - trade-server-network
 
   connect:
-    image: ghcr.io/s24-capstone-distributed/tradeservermongokafkaconnect
+    image: ghcr.io/s24-capstone-distributed/tradeservermongokafkaconnect:latest
     ports:
       - "35000:35000"
     hostname: connect
@@ -56,7 +56,7 @@ services:
       - trade-server-network
 
   mongodb:
-    image: ghcr.io/s24-capstone-distributed/tradeservermongo
+    image: ghcr.io/s24-capstone-distributed/tradeservermongo:latest
     container_name: mongodb
     ports:
       - "27017:27017"
@@ -64,7 +64,7 @@ services:
       - trade-server-network
 
   mongoseeder:
-    image: ghcr.io/s24-capstone-distributed/tradeservermongosetup 
+    image: ghcr.io/s24-capstone-distributed/tradeservermongosetup:latest
     container_name: mongoseeder
     networks:
       - trade-server-network
@@ -84,7 +84,7 @@ services:
       - trade-server-network
 
   postgresdb:
-    image: ghcr.io/s24-capstone-distributed/tradeserverpostgres 
+    image: ghcr.io/s24-capstone-distributed/tradeserverpostgres:latest
     restart: always
     networks:
       - trade-server-network

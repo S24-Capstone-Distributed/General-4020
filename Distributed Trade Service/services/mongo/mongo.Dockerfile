@@ -2,10 +2,17 @@
 FROM mongo:latest
 
 
-ENV MONGO_INITDB_DATABASE=tradeServer
+ENV MONGO_INITDB_ROOT_USERNAME=isigutt
+ENV MONGO_INITDB_ROOT_PASSWORD=isi
 
 # Set the working directory in the container
 WORKDIR /usr/src/configs
+
+# Copy initialization scripts (if you have any)
+COPY ./mongo-init /docker-entrypoint-initdb.d
+
+# Make the seed script executable
+RUN chmod +x /docker-entrypoint-initdb.d/seeddb.sh
 
 
 # Expose ports (default MongoDB port is 27017)

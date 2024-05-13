@@ -163,13 +163,13 @@
             </ol>
         </li>
     </ol>
-    <h3>Load Balancing with Nginx (Round Robin)</h3>
+    <h3>Load Balancing with HAProxy (Round Robin)</h3>
 <ol>
     <li><strong>Round Robin Method:</strong>
         <ol type="a">
-            <li><strong>Equitable Distribution:</strong> The Round Robin algorithm within Nginx operates by rotating through a list of available servers and distributing incoming client requests in a sequential manner. Each new request is sent to the next server in the list, and once the end of the list is reached, the algorithm cycles back to the first server. This cycle repeats continuously, ensuring that every server receives an equal number of requests over time.</li>
+            <li><strong>Equitable Distribution:</strong> The Round Robin algorithm within HAProxy operates by rotating through a list of available servers and distributing incoming client requests in a sequential manner. Each new request is sent to the next server in the list, and once the end of the list is reached, the algorithm cycles back to the first server. This cycle repeats continuously, ensuring that every server receives an equal number of requests over time.</li>
             <li><strong>Implementation Simplicity:</strong> One of the primary advantages of the Round Robin method is its simplicity. There is no need to keep track of the current load or capacity of each server; instead, requests are distributed based solely on the order of servers in the configuration file. This simplicity makes it an ideal choice for many load balancing scenarios, particularly when the servers are of similar capacity and load.</li>
-            <li><strong>Automatic Scalability:</strong> Adding or removing servers from the Nginx configuration automatically adjusts the Round Robin cycle. This adaptability is crucial for dynamic environments where the server pool might change due to scaling operations or maintenance tasks. The algorithm seamlessly accommodates these changes without requiring a reconfiguration of the load balancing logic.</li>
+            <li><strong>Automatic Scalability:</strong> Adding or removing servers from the HAProxy configuration automatically adjusts the Round Robin cycle. This adaptability is crucial for dynamic environments where the server pool might change due to scaling operations or maintenance tasks. The algorithm seamlessly accommodates these changes without requiring a reconfiguration of the load balancing logic.</li>
         </ol>
     </li>
     <li><strong>Benefits for Application Architecture:</strong>

@@ -10,8 +10,8 @@
 
 ![Container diagram](./diagrams/containers.png)
 
-- API Gateway is the exposed API the other VSP groups will be using to access the data we store or give us data to store
-- Data Router will be routing data to the appropriate storage nodes and using the Placement Service to figure out where to store and get objects
-- The placement service will keep track of all the IDs of the videos and sub-keys for partitioned larger data. This will allow requests for a video to be found using its name to ID,
-  and then use all sub-keys to find parts and give each part in order.
-- The storage nodes are our servers in a Zookeeper Cluster that will replicate data, and store the objects in buckets. They will also be sharing their health data with other nodes.
+- Load balancer is used to distribute the load across multiple Data Router instances
+- Data Router exposes an HTTP API for users to store and retreive files. It communicates with the storage nodes to store and retrieve files
+- The storage nodes store the files and replecate files among themselves.
+- Zookeeper is used to manage the storage nodes and keep track of their health status. It is used by the nodes to know where to replecate files and when to rereplicate. It is used by the Data Router to know where to store files and where to retrieve them.
+- The Postgres database is used to store metadata about the files stored in the system. It is used by the Data Routers to keep track of the files that have been stored on the system

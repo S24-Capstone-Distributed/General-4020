@@ -120,3 +120,4 @@ networks:
 
 volumes:
   grafana-storage:
+  rabbit_mqdata:

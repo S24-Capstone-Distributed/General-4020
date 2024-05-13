@@ -10,6 +10,16 @@ services:
     networks:
       - trade-server-network
 
+  rabbit_mq:
+    image: rabbitmq:3.8-rc-management
+    container_name: rabbit_mq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbit_mqdata:/usr/share/rabbitmq/data
+    networks:
+      - trade-server-network
 
   kafka:
     image: ghcr.io/s24-capstone-distributed/tradeserverkafka:latest

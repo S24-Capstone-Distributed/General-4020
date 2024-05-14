@@ -14,3 +14,6 @@ cx /tutorials/sink_connector/marketvaluesink.json
 cx /tutorials/sink_connector/observabilitysink.json
 cx /tutorials/source_connector/clientholdingssource.json
 status
+
+
+sleep infinity

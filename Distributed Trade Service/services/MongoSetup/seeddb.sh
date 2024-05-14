@@ -12,4 +12,5 @@ echo "attaching connectors"
 cx /tutorials/sink_connector/priceupdatesink.json
 cx /tutorials/sink_connector/marketvaluesink.json
 cx /tutorials/sink_connector/observabilitysink.json
+cx /tutorials/source_connector/clientholdingssource.json
 status

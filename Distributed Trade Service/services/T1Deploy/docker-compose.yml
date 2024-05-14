@@ -192,4 +192,4 @@ services:
   #     - ${NETWORK}
   
 networks:
-  ${NETWORK}:
+  't1-network':

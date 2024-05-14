@@ -4,14 +4,19 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+
 import edu.yu.capstone.T2.mongo_node.MongoNode.CollectionType;
 import edu.yu.capstone.T2.mongo_node.impl.TransactionImpl;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class MongoNode_Spinup {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // Read environment variables
         String mongoURI = System.getenv("MONGO_URI");
         String rabbitURI = System.getenv("RABBIT_URI");
@@ -22,9 +27,7 @@ public class MongoNode_Spinup {
         String exchangeName = System.getenv("EXCHANGE_NAME");
         String outsideDocker = System.getenv("OUTSIDE_DOCKER");
         String rabbit_host = System.getenv("RABBITMQ_HOST");
-
-
-
+        String kafkaBootstrapServers = System.getenv("KAFKA_BOOTSTRAP_SERVERS");
 
         TransactionImpl transaction;
         MongoNode.NodeType nodeType = null;
@@ -40,7 +43,8 @@ public class MongoNode_Spinup {
                     nodeType = MongoNode.NodeType.CLIENT_COLLECTION;
                     break;
                 default:
-                    throw new IllegalArgumentException("NODE_TYPE environment variable must be either 'BROKERAGE_COLLECTION' or 'CLIENT_COLLECTION'");
+                    throw new IllegalArgumentException(
+                            "NODE_TYPE environment variable must be either 'BROKERAGE_COLLECTION' or 'CLIENT_COLLECTION'");
             }
         }
         if (mongoURI == null) {
@@ -68,7 +72,7 @@ public class MongoNode_Spinup {
         ConnectionFactory factory = new ConnectionFactory();
         try {
 
-            if (outsideDocker != null){
+            if (outsideDocker != null) {
                 factory.setPort(5672);
                 factory.setHost("localhost");
                 factory.setUsername("guest");
@@ -80,19 +84,25 @@ public class MongoNode_Spinup {
                 factory.setPassword("guest");
             }
 
-
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.info("Rabbit has failed and not been set up properly \n");
             Thread.interrupted();
             e.printStackTrace();
             System.exit(1);
         }
 
-        // Initialize RepositoryPatternBase for the Node
-        transaction = new TransactionImpl(mongoURI);
+        Properties kafkaProperties = new Properties();
+        kafkaProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBootstrapServers);
+        kafkaProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        kafkaProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        MongoNode node = new MongoNode(factory, rabbitQueueName, generalRoutingKey, exchangeName, transaction, nodeType, collectionType);
+        KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(kafkaProperties);
+
+        // Initialize RepositoryPatternBase for the Node
+        transaction = new TransactionImpl(mongoURI, kafkaProducer);
+
+        MongoNode node = new MongoNode(factory, rabbitQueueName, generalRoutingKey, exchangeName, transaction, nodeType,
+                collectionType);
 
         node.run();
     }

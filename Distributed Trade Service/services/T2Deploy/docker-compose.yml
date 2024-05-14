@@ -1,14 +1,5 @@
 version: '3.8'
 services:
-  # haproxy:
-  #   build: HAProxy
-  #   ports:
-  #     - '80:80'
-  #   depends_on:
-  #     - tradeservice
-  #     - tradeservice2
-  #   networks:
-  #     backend
 
   tradeservice:
     build:
@@ -17,40 +8,16 @@ services:
     container_name: tradeservice
     ports:
       - '5000:5000'
-    depends_on:
-      - rabbit_mq
-      - mongo
     environment:
       AMQP_URL: ${pikaURL}
       MONGO_URL: ${MONGO_URL}
       TRADE_QUEUE_NAME: ${TRADESERVICE_QUEUE_NAME}
-      # RABBITMQ_HOST: rabbit_mq
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
       # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
     volumes:
       - ./tradeservice:/app
     networks:
       - backend
-
-  # tradeservice2:
-  #   build:
-  #     context: ./TradeService
-  #     dockerfile: Dockerfile
-  #   container_name: tradeservice2
-  #   ports:
-  #     - '5000:5000'
-  #   depends_on:
-  #     - rabbit_mq
-  #     - mongo
-  #   environment:
-  #     AMQP_URL: ${pikaURL}
-  #     MONGO_URL: ${MONGO_URL}
-  #     TRADE_QUEUE_NAME: ${TRADESERVICE_QUEUE_NAME}
-  #     # RABBITMQ_HOST: rabbit_mq
-  #     # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
-  #   volumes:
-  #     - ./tradeservice2:/app
-  #   networks:
-  #     - backend
 
   java_orchestrator_node:
     build:
@@ -58,8 +25,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_orchestrator_node
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       KAFKA_TOPIC_NAME: ${KAFKA_TOPIC_NAME}
@@ -71,8 +36,7 @@ services:
       ROUTING_KEY_START: ${ROUTING_KEY_START}
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       RECEIVE_QUEUE_NAME: ${RECEIVE_QUEUE_NAME}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./java_orchestrator_node:/app/target
     networks:
@@ -84,8 +48,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_orchestrator_node2
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       KAFKA_TOPIC_NAME: ${KAFKA_TOPIC_NAME}
@@ -97,8 +59,7 @@ services:
       ROUTING_KEY_START: ${ROUTING_KEY_START}
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       RECEIVE_QUEUE_NAME: ${RECEIVE_QUEUE_NAME}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./java_orchestrator_node2:/app/target
     networks:
@@ -110,8 +71,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_clientacc_node
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       RABBIT_URI: ${RABBITMQ_URI}
@@ -122,8 +81,7 @@ services:
       COLLECTION_TYPE: 'CLIENT_COLLECTION'
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       ROUTING_KEY_START: ${ROUTING_KEY_START}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./java_clientacc_node:/app/target
     networks:
@@ -135,8 +93,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_clientacc_node2
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       RABBIT_URI: ${RABBITMQ_URI}
@@ -147,8 +103,7 @@ services:
       COLLECTION_TYPE: 'CLIENT_COLLECTION'
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       ROUTING_KEY_START: ${ROUTING_KEY_START}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./java_clientacc_node2:/app/target
     networks:
@@ -160,8 +115,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_broker_node
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       RABBIT_URI: ${RABBITMQ_URI}
@@ -172,8 +125,7 @@ services:
       COLLECTION_TYPE: 'BROKERAGE_COLLECTION'
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       ROUTING_KEY_START: ${ROUTING_KEY_START}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./target:/app/target
     networks:
@@ -185,8 +137,6 @@ services:
       dockerfile: Dockerfile
     container_name: java_broker_node2
     depends_on:
-      - rabbit_mq
-      - mongo
       - tradeservice
     environment:
       RABBIT_URI: ${RABBITMQ_URI}
@@ -197,26 +147,9 @@ services:
       COLLECTION_TYPE: 'BROKERAGE_COLLECTION'
       EXCHANGE_NAME: ${EXCHANGE_NAME}
       ROUTING_KEY_START: ${ROUTING_KEY_START}
-      # RABBITMQ_HOST: rabbit_mq
-      # RABBITMQ_USERPASS: ${RABBITMQ_USERPASS}
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
     volumes:
       - ./target2:/app/target
-    networks:
-      - backend
-
-  mongo:
-    build:
-      context: ./Mongo
-      dockerfile: mongo.Dockerfile
-    container_name: Mongo
-    ports:
-      - '27017:27017'
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: isigutt
-      MONGO_INITDB_ROOT_PASSWORD: isi
-    volumes:
-      - mongo-data:/data/db
-      - ./Mongo/mongo-init:/docker-entrypoint-initdb.d
     networks:
       - backend
 

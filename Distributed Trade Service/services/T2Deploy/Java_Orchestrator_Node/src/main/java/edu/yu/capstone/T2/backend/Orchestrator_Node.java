@@ -5,6 +5,7 @@ import edu.yu.capstone.T2.backend.TimerUtils.TimerClass;
 import edu.yu.capstone.T2.backend.TimerUtils.TimerError;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import edu.yu.capstone.T2.observe.EventManager;
 
 import java.io.IOException;
 import java.util.*;
@@ -34,7 +35,7 @@ public class Orchestrator_Node {
     private final String exchangeName;
     private final String generalRoutingKey;
     // private final MockKafka mockKafka;
-    // private final EventManager eventManager;
+    private final EventManager eventManager;
 
     private class DeliveredTuple {
         private final TransactionDetails details;
@@ -55,7 +56,7 @@ public class Orchestrator_Node {
     }
 
     private enum EventType {
-        TRANSACTION_START, TRANSACTION_END
+        TRANSACTION_START, TRANSACTION_SUCCESS, TRANSACTION_FAILURE
     }
 
     public Orchestrator_Node(ConnectionFactory rabbitBus, String tradeServiceQueue, String brokerInvQueue,
@@ -66,8 +67,10 @@ public class Orchestrator_Node {
         this.brokerInvQueue = brokerInvQueue;
         this.generalRoutingKey = generalRoutingKey;
         this.exchangeName = exchangeName;
+        this.orchestratorKey = String.valueOf(ThreadLocalRandom.current().nextInt(0, 1000000));
         // this.mockKafka = new MockKafka();
-        // this.eventManager = new EventManager(mockKafka, "machine-1");
+        // Hard coded
+        this.eventManager = new EventManager("192.168.8.224:9092", orchestratorKey);
 
         this.timerExecutor = Executors.newCachedThreadPool();
         this.transactionExecutor = Executors.newCachedThreadPool();
@@ -106,7 +109,6 @@ public class Orchestrator_Node {
 
     public void run() {
         // key should be unique per node
-        this.orchestratorKey = String.valueOf(ThreadLocalRandom.current().nextInt(0, 1000000));
         this.orchestratorReturnQueue = orchestratorKey + "queue";
 
         // setup exchanges and queues
@@ -130,8 +132,8 @@ public class Orchestrator_Node {
             DeliveredTuple tuple = new DeliveredTuple(TransactionDetails.deserialize(delivery.getBody()),
                     delivery.getEnvelope().getDeliveryTag());
             System.out.printf("Message received from: %s \n", tradeServiceQueue);
-            // eventManager.sendEvent("T2", tuple.details.getTransactionID(),
-            // EventType.TRANSACTION_START.name(), System.currentTimeMillis());
+            eventManager.sendEvent("T2", tuple.details.getTransactionID(), EventType.TRANSACTION_START.name(),
+                    System.currentTimeMillis());
             System.out.println(tuple.details.toString());
             try {
                 waitingMessages.put(tuple);
@@ -384,6 +386,8 @@ public class Orchestrator_Node {
             transactionsMap.remove(unit.getDetails().getTransactionID());
             postToKafka(unit);
             confirmTransaction(unit.getDeliveryTag());
+            eventManager.sendEvent("T2", unit.getDetails().getTransactionID(), EventType.TRANSACTION_FAILURE.name(),
+                    System.currentTimeMillis());
         }
     }
 
@@ -393,6 +397,8 @@ public class Orchestrator_Node {
             System.out.println("Completed Successfully");
             transactionsMap.remove(unit.getDetails().getTransactionID());
             postToKafka(unit);
+            eventManager.sendEvent("T2", unit.getDetails().getTransactionID(), EventType.TRANSACTION_SUCCESS.name(),
+                    System.currentTimeMillis());
             confirmTransaction(unit.getDeliveryTag());
         }
     }

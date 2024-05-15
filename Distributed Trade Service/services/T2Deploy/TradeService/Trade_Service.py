@@ -8,7 +8,7 @@ import os
 from pymongo import MongoClient
 from datetime import datetime
 
-#TODO: give buy and sell their own channels if needed
+# TODO: give buy and sell their own channels if needed
 print("Starting Trade Service")
 
 # read rabbitmq connection url from environment variable
@@ -31,14 +31,13 @@ except Exception:
     mongo_url = "mongodb://isigutt:isi@localhost:27017/"
 
 
-
-#credentials = pika.PlainCredentials(amqp_user, amqp_pass)
-#parameters = pika.ConnectionParameters(amqp_host, 5672, '/', credentials)
+# credentials = pika.PlainCredentials(amqp_user, amqp_pass)
+# parameters = pika.ConnectionParameters(amqp_host, 5672, '/', credentials)
 # url_params = pika.URLParameters(amqp_url)
 # connect to rabbitmq
 global connection
-connection = pika.BlockingConnection(pika.URLParameters(amqp_url))
 global channel
+connection = pika.BlockingConnection(pika.URLParameters(amqp_url))
 channel = connection.channel()
 queue_name = os.environ["TRADE_QUEUE_NAME"]
 channel.queue_declare(queue=queue_name, durable=True)
@@ -69,7 +68,7 @@ queryCollection = queryDB[collection_name]
 
 tx_generator = TransactionIDGenerator()
 # Use Kafka is false for now, so we don't have to spin that up, we'll wait for integration
-#price_Manager = PricesManager(None, False)
+# price_Manager = PricesManager(None, False)
 
 app = Flask(__name__)
 
@@ -100,7 +99,6 @@ def register():
         return jsonify(message='New client endpoint reached'), 200
     else:
         return jsonify(message='Error submitting registration'), 500
-    
 
 
 # method should add the TransactionDetails impl to the rabbit queue
@@ -112,14 +110,14 @@ def submitBuy(clientID: int, ticker: str, buyAmount: int, txnID):
         lockinPrice = 20
     details = TransactionDetails(clientID, ticker, buyAmount,
                                  TransactionType.BUY, lockinPrice, txnID)
-    
+
     check_rabbit_connection()
     channel.basic_publish(
-            exchange='',
-            routing_key=queue_name,
-            body=details.serialize(),
-            properties=pika.BasicProperties(delivery_mode=2)
-        )
+        exchange='',
+        routing_key=queue_name,
+        body=details.serialize(),
+        properties=pika.BasicProperties(delivery_mode=2)
+    )
     print("Buy request submitted")
     print(details)
 
@@ -135,11 +133,11 @@ def submitSell(clientID: int, ticker: str, sellAmount: int, txnID):
 
     check_rabbit_connection()
     channel.basic_publish(
-            exchange='',
-            routing_key=queue_name,
-            body=details.serialize(),
-            properties=pika.BasicProperties(delivery_mode=2)
-        )
+        exchange='',
+        routing_key=queue_name,
+        body=details.serialize(),
+        properties=pika.BasicProperties(delivery_mode=2)
+    )
 
     print("Sell request submitted")
     print(details)
@@ -158,25 +156,23 @@ def submit_register(clientID: int, startingBalance: str):
         queryCollection.insert_one(client_info.copy())
     except Exception:
         return False
-    #TODO: add in fault tolerance
+    # TODO: add in fault tolerance
     print(
         f"New client added\n  Client ID: {clientID}\n  Starting Balance: {startingBalance}\n")
     return True
 
+
 def check_rabbit_connection():
     global channel
     global connection
-    if (channel.is_closed):
-        print("Channel was closed")
-        if (connection.is_closed):
-            print("Connection was closed")
-            connection = pika.BlockingConnection(amqp_url)
-            print("reopened connection")
+    # connect to channel then connection
+    if (connection.is_closed):
+        print("Connection was closed")
+        connection = pika.BlockingConnection(amqp_url)
+        print("reopened connection")
         channel = connection.channel()
-        print("Reopened channel")
-        
-    channel.queue_declare(queue=queue_name, durable=True)
-        
+
+    connection = pika.BlockingConnection(pika.URLParameters(amqp_url))
 
 
 if __name__ == '__main__':

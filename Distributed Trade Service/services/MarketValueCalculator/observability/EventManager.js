@@ -9,6 +9,10 @@ export default class EventManager {
     }
 
     async sendEvent(poolid, eventid, eventkey, eventvalue) {
+        if(!eventkey) {
+            console.log("Event key was null", eventkey)
+            return;
+        }
         try {
             const fullMsg = {
                 schema: {

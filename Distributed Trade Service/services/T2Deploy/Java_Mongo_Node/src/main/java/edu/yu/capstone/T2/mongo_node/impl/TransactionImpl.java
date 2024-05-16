@@ -363,27 +363,10 @@ public class TransactionImpl extends RepositoryPatternBase {
 
                 // remove from clientPortfolio, autofails if any issues
                 try {
-                        clientPortfolio.updateOne(Filters.and(
-                                        Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
-                                        Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())),
-                                        Updates.combine(Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(),
-                                                        -tx.getStockAmount()), // Decrement the quantity
-                                                        Updates.set("lastUpdated", System.currentTimeMillis()), // Set
-                                                                                                                // the
-                                                                                                                // last
-                                                                                                                // updated
-                                                                                                                // time
-                                                                                                                // as
-                                                                                                                // current
-                                                                                                                // time
-                                                                                                                // in ms
-                                                        Updates.set("timestamp", System.currentTimeMillis()) // Set the
-                                                                                                             // timestamp
-                                                                                                             // field as
-                                                                                                             // current
-                                                                                                             // time in
-                                                                                                             // ms
-                                        ));
+                    clientPortfolio.updateOne(Filters.and(
+                        Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
+                        Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())),
+                    Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), -tx.getStockAmount()));
                 } catch (MongoWriteException e) {
                         logger.info("Insufficient stock owned. FAIL\n");
                         return false;
@@ -453,24 +436,25 @@ public class TransactionImpl extends RepositoryPatternBase {
 
                 // 2. Update client's portfolio to add money
                 try {
-                        UpdateResult result = clientPortfolio.updateOne(Filters.and(
-                                        Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
-                                        Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(),
-                                                        MongoDBSchema.KeyNames.CASH)),
-                                        Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(),
-                                                        +tx.getDollarValue()));
-
-                        if (result.getModifiedCount() != 1) {
-                                Document insertion = new Document(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(),
-                                                tx.getClientID())
-                                                                .append(MongoDBSchema.KeyNames.TICKER.getKeyName(),
-                                                                                tx.getTicker())
-                                                                .append(MongoDBSchema.KeyNames.QUANTITY.getKeyName(),
-                                                                                tx.getStockAmount());
-                                clientPortfolio.insertOne(insertion);
-                        }
+                    UpdateResult result = clientPortfolio.updateOne(Filters.and(
+                            Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
+                            Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())),
+                        Updates.combine(
+                            Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), tx.getStockAmount()),
+                            Updates.set(MongoDBSchema.KeyNames.LAST_UPDATED.getKeyName(), new Date()), // Update lastUpdated
+                            Updates.set(MongoDBSchema.KeyNames.TIMESTAMP.getKeyName(), new Date()) // Ensure timestamp is updated here
+                        ));
+            
+                    if (result.getModifiedCount() == 0) {
+                        Document insertion = new Document(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID())
+                            .append(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())
+                            .append(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), tx.getStockAmount())
+                            .append(MongoDBSchema.KeyNames.LAST_UPDATED.getKeyName(), new Date())
+                            .append(MongoDBSchema.KeyNames.TIMESTAMP.getKeyName(), new Date());
+                        clientPortfolio.insertOne(insertion);
+                    }
                 } catch (MongoWriteException e) {
-                        logger.info("Somehow failed to add money\n");
+                    logger.info("Error adding the stock to clientPortfolio");
                 }
 
                 // 3. remove from staged

@@ -1,11 +1,17 @@
-## Workflow diagram for the [standard processing of a video](scope.md#client-requests-processing-of-video):
-![VideoProcessing_Upload_Latest](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/97951c8c-0161-4bb0-afc8-37488e65e15a)
+## Table of Contents
+- [Client Requests Processing of Video](#client-requests-processing-of-video)
+- [Autoscaling Workflow](#autoscaling-workflow)
+- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
+- [Error Handling: Container Failure](#error-handling-container-failure)
 
-## Workflow diagram for [transcoder failure](scope.md#container-failure-transcoder):
-![VideoProcessing_TranscoderFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/5092b114-6328-4f9e-bffe-826f611980e9)
+## [Client Requests Processing of Video](scope.md#client-requests-processing-of-video):
+![VideoProcessing_BasicUseCase](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/c4efcf4c-173f-408b-b494-1d9c260fac44)
 
-## Workflow diagram for [puller failure](scope.md#container-failure-puller):
-![VideoProcessing_PullerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/f3b75672-a99e-4009-bf82-4072983337be)
+## [Autoscaling Workflow](scope.md#autoscaling-workflow):
+![VideoProcessing_Autoscaling](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/46f01912-3670-4328-84b5-4fa596afd729)
 
-## Workflow diagram for [pusher failure](scope.md#container-failure-pusher):
-![VideoProcessing_PusherFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/e6cdad01-d08f-4699-a8a1-553c39fc7300)
+## [Error Handling: Functional Container Error](scope.md#error-handling-functional-container-error):
+![VideoProcessing_FunctionalContainerError](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/725da694-a0fe-497a-91c8-3b5e51eca0c7)
+
+## [Error Handling: Container Failure](scope.md#error-handling-container-failure):
+![VideoProcessing_ContainerFailure](https://github.com/S24-Capstone-Distributed/General-4020/assets/76976043/62673270-8cf5-49fe-bb39-b61b31cc7d38)

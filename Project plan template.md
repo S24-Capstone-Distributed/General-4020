@@ -8,11 +8,11 @@ Each section of the project plan will be in its own markdown file. Below is the 
 
 Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application.
 
-## Scope and Use Cases
+## Scope (Scenarios covered)
 
 ### scope.md
 
-Define the scope of your development and what you will deliver in terms of use cases.  List all the use cases you will be supporting. Link to the workflow diagrams when appropriate. Do not forget about error cases, which will include node and service failures and the recovery that is expected.
+Define the scope of your development and what you will deliver in terms of use cases.  List all the scenarios you will be supporting. Link to the workflow diagrams when appropriate. Do not forget about error cases, which will include node and service failures and the recovery that is expected.
 
 ## Distributed System Challenges
 

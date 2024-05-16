@@ -1,128 +1,189 @@
 ## Table of Contents
-- [Client Requests Processing of Video](#client-requests-processing-of-video)
-- [Autoscaling Workflow](#autoscaling-workflow)
-- [Error Handling: Functional Container Error](#error-handling-functional-container-error)
-- [Error Handling: Container Failure](#error-handling-container-failure)
-- [Gossip-Based Heartbeat Protocol Between Containers/Pods](#gossip-based-heartbeat-protocol-between-containerspods)
+
+1. [Client Requests Processing of Video](#feature-client-requests-processing-of-video)
+2. [Autoscaling Workflow](#feature-autoscaling-workflow)
+3. [Error Handling - Functional Container Error](#feature-error-handling-functional-container-error)
+4. [Error Handling - Container Failure](#feature-error-handling-container-failure)
 
 
+## Relevant Events and Descriptions
 
-## Client Requests Processing of Video
+### 1. TaskReceived
+**Description:** Event triggered when a new video transcoding task is received from the message bus / queue.
 
-**Trigger:** Client request received over RabbitMQ with a task ID.
+### 2. TaskDetailsRetrieved
+**Description:** Event triggered after retrieving task details from the database using the provided task ID.
 
-**Description:** This workflow describes how a video is processed within a single pod and process. It involves receiving a message over RabbitMQ with a task ID, pulling the necessary video file from the object store, transcoding it, and uploading the transcoded file back to the storage service. This describes the happy path. Error handling is discussed later.
+### 3. VideoFilePulled
+**Description:** Event triggered after successfully pulling the necessary video file from the object store based on the task details.
 
-**Preconditions:**
-- The system is actively processing video transcoding tasks.
-- The video task IDs are available via RabbitMQ.
-- The necessary video file exists in the object store.
-- The details for this task are stored in the database and can be accessed using the task ID.
+### 4. VideoTranscoded
+**Description:** Event triggered after the video file has been transcoded to desired resolutions and bitrates.
 
-**Basic Flow:**
-1. Take message off of RabbitMQ containing the task ID.
-2. Log in the database that this task ID was taken off with details about the container that is processing it.
-3. Retrieve task details from the database using the provided task ID.
-4. Pull the necessary video file from the object store based on the task details.
-5. Log in the database that the video file has been pulled for transcoding.
-6. Transcode the video file to desired resolutions and bitrates.
-7. Log in the database that the video has been transcoded.
-8. Upload the transcoded video file back to the storage service.
-9. Log in the database that the transcoded video has been uploaded.
+### 5. TranscodedVideoUploaded
+**Description:** Event triggered after successfully uploading the transcoded video file back to the storage service.
 
-## Autoscaling Workflow
+### 6. WorkerNodeScaledUp
+**Description:** Event triggered when a new worker node is spun up to handle increased workload.
 
-**Description:** This workflow describes how the system dynamically scales based on the CPU utilization of worker nodes.
+### 7. WorkerNodeScaledDown
+**Description:** Event triggered when an underutilized worker node is scheduled for shutdown after finishing its current tasks.
 
-**Preconditions:**
-- The system is actively processing video transcoding tasks.
+### 8. ContainerErrorRetry
+**Description:** Event triggered when an error is encountered during the processing of a video transcoding task, and the system retries the operation.
 
-**Basic Flow:**
-1. Monitor the CPU utilization of all worker nodes.
-2. If the average CPU utilization is high:
-   - Spin up additional worker nodes to handle the increased workload.
-   - Log in the database that a new worker node was spun up.
-3. If the average CPU utilization is very low:
-   - Block underutilized nodes from receiving any more work and shut them down underutilized after they finish their current tasks.
-   - Once a node is shut down, log in the database that it was shut down.
-4. Continue monitoring and adjusting the number of worker nodes as needed.
+### 9. ContainerErrorEscalation
+**Description:** Event triggered when an error is encountered during the processing of a video transcoding task, and the issue is escalated to system administrators for manual intervention.
 
-## Error Handling: Functional Container Error
+### 10. ContainerFailureDetected
+**Description:** Event triggered upon detecting a failure of the container within the processing pod, initiating recovery procedures.
 
-**Description:** This workflow addresses errors encountered within the single functional container during the processing of video tasks. It involves retries and escalation procedures to ensure task completion and system reliability.
+### 11. HeartbeatReceived
+**Description:** Event triggered upon receiving a heartbeat signal from a container or pod within the system.
 
-**Trigger:** The functional container encounters an error during the pull, transcode, or push operation.
+### 12. GossipTableMerged
+**Description:** Event triggered after merging received gossip tables to ensure consistency and update records accordingly.
 
-**Preconditions:**
-- The system is actively processing video transcoding tasks.
-- The functional container is still functioning but has encountered an error during its operation.
+### 13. ContainerScaledUp
+**Description:** Event triggered when additional containers are launched to distribute workload and alleviate resource constraints during workload processing.
 
-**Basic Flow:**
-1. Upon encountering an error, the functional container logs the error message and increments the retry counter for the task.
-2. The system checks the retry count against a predefined threshold to determine whether to retry the operation or escalate the issue.
-3. If the retry count is below the threshold:
-   - The system retries the operation after a brief delay to allow for potential transient issues to resolve.
-   - If the retry is successful, the task continues as normal.
-4. If the retry count exceeds the threshold:
-   - The system escalates the issue to system administrators or designated personnel for manual intervention.
-5. System administrators investigate the root cause of the error and take appropriate actions to resolve it, such as adjusting configurations, restarting the container, or reallocating resources.
-6. Once the issue is resolved, the system updates the task status accordingly and resumes processing.
-7. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
+### 14. ContainerScaledDown
+**Description:** Event triggered when containers are shut down after finishing their current jobs to optimize resource utilization during workload processing.
 
-**Alternative Flows:**
-- If the error is transient and resolves after a retry attempt, the system continues processing without escalation.
-- If the error persists despite retry attempts, the system may implement additional measures, such as exponential backoff or circuit breaker strategies, before escalating the issue.
+### 15. ResourceUtilizationThresholdReached
+**Description:** Event triggered when CPU or RAM utilization reaches predefined thresholds during workload processing, prompting scaling actions.
 
-**Postconditions:**
-- The system maintains reliability and availability by handling functional container errors gracefully and ensuring timely resolution through retries and escalation procedures.
+### 16. WorkloadProcessingStarted
+**Description:** Event triggered when a container starts processing a video transcoding task, signaling its activity.
 
-## Error Handling: Container Failure
+### 17. WorkloadProcessingFinished
+**Description:** Event triggered when a container finishes processing a video transcoding task, signaling its inactivity.
 
-**Description:** This workflow addresses the failure of the single container within the processing pod. It involves detection, recovery, and system stability measures to mitigate the impact of container failures on video processing tasks.
 
-**Trigger:** The container fails due to runtime exceptions, resource exhaustion, or other critical issues.
+## Feature: Client Requests Processing of Video
 
-**Preconditions:**
-- The system is actively processing video transcoding tasks.
-- The container failure affects the processing pod's ability to handle tasks.
+Scenario: Processing of Video Task
 
-**Basic Flow:**
-1. The system monitors container health through heartbeat signals or other health checks.
-2. Upon detecting a container failure through the heartbeat protocol described below, the node in charge of error handling marks the affected tasks as "failed" or "incomplete" and initiates recovery procedures.
-3. Recovery procedures generally will involve checking if the failed container was working on any tasks when it failed, and if it was, sending a status event with the task ID to requeue to the machine in charge of requeing failed tasks. Otherwise, there is nothing that needs to be done.
-4. A status event will also be sent to administrators in case they want to investigate the root cause of the container failure.
-5. Progress updates and status changes are logged to the database for monitoring and tracking purposes.
+Given a client request received over the message bus / queue
 
-**Alternative Flows:**
-- If the container failure is due to resource constraints, the system may dynamically adjust resource allocations or trigger autoscaling mechanisms to mitigate future failures.
-- If the failure persists despite recovery attempts, the system may escalate the issue for further investigation by system administrators or engineers.
+When the message is taken off of the message bus / queue
 
-**Postconditions:**
-- The system maintains reliability and availability by promptly detecting and recovering from container failures, ensuring minimal disruption to video processing operations.
+Then a TaskReceived event is logged to the database
 
-## Gossip-Based Heartbeat Protocol Between Containers/Pods
+And the necessary video file is pulled from the object store based on the task details
 
-**Description:** This workflow outlines the process of exchanging heartbeat signals between containers or pods within the system using a gossip-based protocol. The protocol involves randomly selecting peers to exchange heartbeat signals, updating activity timestamps, merging gossip tables, and handling inactive or failed peers.
+Then a VideoFilePulled event is logged to the database
 
-**Preconditions:**
-- The system consists of multiple containers or pods that need to communicate their status.
-- Gossip-based heartbeat mechanisms are implemented within the containers or pods.
+And the video file is transcoded to desired resolutions and bitrates
 
-**Basic Flow:**
-1. Each container or pod periodically selects a random subset of peers to send heartbeat signals to.
-2. Upon receiving a heartbeat signal:
-   - If the sender is already marked as active, the receiving container or pod updates the latest activity timestamp for that sender.
-   - If the sender was previously marked as inactive and has been inactive for at least double the heartbeat timeout period, and it now sends a heartbeat signal, the receiving container or pod re-adds it to the table and marks it as active.
-   - Otherwise, the sender is still considered to be inactive, and it's gossip table is ignored.
-3. Each container or pod shares its gossip table containing information about when peers were last active when sending out heartbeat signals.
-4. Upon receiving a heartbeat signal, each container or pod merges the received gossip table with its own to ensure consistency and update its records accordingly.
-5. Periodically, each container or pod iterates through its heartbeat table to identify peers that have not received any information for a while.
-6. Peers that have been inactive for an extended period, beyond a predefined threshold, are marked as failed.
-7. Monitoring systems track the frequency of heartbeat signals and raise alerts if abnormalities or failures are detected.
+Then a VideoTranscoded event is logged to the database
 
-**Alternative Flows:**
-- In scenarios where network partitions or communication issues occur, the system may employ quorum-based approaches or consensus algorithms to maintain integrity and availability.
+And the transcoded video file is uploaded back to the storage service
 
-**Postconditions:**
-- The gossip-based heartbeat protocol facilitates continuous monitoring and synchronization between containers or pods, enhancing the system's resilience and fault tolerance.
+Then a TranscodedVideoUploaded event is logged to the database
 
+
+## Feature: Autoscaling Workflow
+
+Scenario: Dynamic Scaling Based on Queue Size
+
+Given the video processing system is running
+
+When the service continuously monitors the queue length
+
+Then it compares the queue length to a pre-defined range
+
+And if the queue length is within the range
+
+Then the system configuration remains the same
+
+
+And if the queue length is too high
+
+And the ratio of containers to nodes is above a pre-defined threshold
+
+Then start up a new node
+
+And a WorkerNodeScaledUp event is logged to the database
+
+And start up a new container on that node
+
+And a ContainerScaledUp event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then start up a new container
+
+And a ContainerScaledUp event is logged to the database
+
+
+And if the queue length is too low
+
+And the ratio of containers to nodes is above a pre-defined threshold
+
+Then stop sending work to a container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And if the ratio of containers to nodes is below the threshold
+
+Then stop sending work to a specific container
+
+And shut down the container when it finishes its current work
+
+And a ContainerScaledDown event is logged to the database
+
+And copy over any containers running on that node to another node
+
+And shut down the node
+
+And a WorkerNodeScaledDown event is logged to the database
+
+
+And the system continues to monitor queue length
+
+And dynamically adjusts nodes and containers accordingly
+
+
+## Feature: Error Handling - Functional Container Error
+
+Scenario: Retry and Escalation for Functional Container Error
+
+Given the system is actively processing video transcoding tasks
+
+And the functional container encounters an error during its operation
+
+When the error is in pulling or pushing the video file
+
+Then the system checks the retry count against a predefined threshold
+
+And if the retry count is below the threshold, the operation is retried with exponential backoff
+
+But if the retry count exceeds the threshold, the error is escalated
+
+Then a ContainerErrorEscalation event is logged to the database
+
+And system administrators investigate and resolve the issue
+
+And once resolved, the system updates the task status and resumes processing
+
+
+## Feature: Error Handling - Container Failure
+
+Scenario: Detection and Recovery of Container Failure
+
+Given the system is actively processing video transcoding tasks
+
+And a container within the processing pod fails
+
+When the failure is detected by Docker Swarm
+
+Then a new container is automatically spawned
+
+And a ContainerFailureDetected event is logged to the database
+
+And failed tasks are requeued for processing
+
+And progress updates and status changes are logged for monitoring purposes

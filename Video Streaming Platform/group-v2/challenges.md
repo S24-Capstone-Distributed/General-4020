@@ -10,38 +10,39 @@
 
 - Without distribution, processing multiple videos concurrently or dealing with exceptionally large video files could lead to significant delays, potentially rendering the service unusable.
 - In a non-distributed system, if one component breaks, the whole system goes down. Distribution mitigates this risk by spreading the workload across multiple instances or nodes.
-- Parallelizing the transcoding process across multiple Kubernetes pods reduces overall processing time and improves scalability and availability.
+- Having multiple containers all working on transcoding reduces overall processing time and improves scalability and availability.
 
 ## Distributed System Challenges
 
 1. **Fault Detection and Recovery**
-   - Potential transient or permanent failure within puller, transcoder, or pusher components
+   - Potential transient or permanent failure when trying to pull, transcode, or push
+   - Potential full container failure
    - Prompt detection and requeuing of failed tasks without data loss or duplication
    
 2. **Autoscaling**
-   - Dynamically adjusting the number of nodes based on workload and resource utilization
+   - Dynamically adjusting the number of video processing containers and nodes based on workload and resource utilization
    - Ensuring optimal performance and resource efficiency
-   
-3. **Load Balancing**
-   - Equitable distribution of workload across all nodes based on nodes' workload and resource utilization
-   - Preventing overload on individual nodes or pods
+
+3. **Redundancy**
+   - Deploy RabbitMQ as a cluster, improving availibility and fault tolerance
 
 ## Approach to Address Challenges
 
 ### Fault Detection and Recovery
-- Implement health checks to continuously monitor the status of pods and nodes.
-- Trigger automated processes to requeue failed tasks and redistribute workload to healthy pods.
-- Utilize checkpointing mechanisms to resume processing from the point of failure, minimizing redundancy and ensuring data integrity.
+- Take advantage of the fact that Docker Swarm automatically restarts failed containers.
+- Don't send RabbitMQ "ack" until task is complete, ensuring that it gets done.
+- For transient errors, retry a few times before escalating.
+- Escalatate non-recoverable errors immediately.
 
 ### Autoscaling
-- Monitor key performance metrics such as CPU and memory utilization, as well as queue lengths.
-- Automatically scale up or down number of nodes based on workload and resource usage.
-- Proactively manage resource allocation to accommodate varying workloads while minimizing operational costs.
+- Scale number of containers based on queue length.
+- Scale number of nodes based on numbers of containers.
 
-### Load Balancing
-- Prioritize distribution of transcoding tasks to each available node based on node utilization.
-- Manage workload distribution among transcoder pods to prevent overload.
+### Redundancy
+- Deploy RabbitMQ as a cluster and handle the logistic issues that this presents, such as dynamically scaling the number of containers and coordinating which ports are used.
 
 ## Phase Two Enhancements
 
 - Network latency optimization. As long as the system works in a normal amount of time, that is good enough for now. In stage 2 we could work on optimizing the system and making it work even faster.
+- Deploy RabbitMQ as a cluster and handle the logistic issues that this presents, such as dynamically scaling the number of containers and coordinating which ports are used.
+- Configure graceful shutdowns of Docker containers.

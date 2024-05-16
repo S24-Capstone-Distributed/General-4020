@@ -14,9 +14,9 @@
 
 _Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application._
 
-The goal of our project is to implement a distributed object storage system (similar to [Amazon S3](https://aws.amazon.com/s3/). The system will allow for highly available, and efficient distributed storage and retrieval of objects.
+The goal of our project is to implement a distributed object storage system (similar to <a href="https://aws.amazon.com/s3/">Amazon S3</a>). The system will allow for highly available, and efficient distributed storage and retrieval of objects.
 
-This system will be used by the other 2 groups: 
+This system will be used by the other 2 Video Streaming Platform groups: 
 
 - Group V3 will use our platform to store the videos that are uploaded. They will also serve user's streaming requests by retrieving the requested video files from our system.
 

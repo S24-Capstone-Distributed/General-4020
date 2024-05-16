@@ -31,7 +31,16 @@ await populatePriceMap(client, priceMap);
 
 // Create event manager
 const poolId = "mvc-pool";
-const machineId = process.env.MACHINE_ID != undefined ? process.env.MACHINE_ID : Math.floor(Math.random() * 100000);
+let machineId;
+try {
+    if(process.env.MACHINE_ID != undefined) {
+        machineId = Number.parseInt(process.env.MACHINE_ID)
+    } else {
+        machineId = Math.floor(Math.random() * 100000);
+    }
+} catch (error) {
+    machineId = Math.floor(Math.random() * 100000);
+}
 const eventManager = new EventManager(producer, machineId);
 
 /**
@@ -42,6 +51,24 @@ const eventManager = new EventManager(producer, machineId);
  */
 const holdingsMap = {};
 await populateHoldingsMap(client, holdingsMap);
+
+let priceUpdatesPerTenSeconds = 0
+let clientHoldingUpdatesPerTenSeconds = 0
+let marketValueUpdatesPerTenSeconds = 0;
+
+// Send these metrics to the observability framework every Tenseconds
+setInterval(() => {
+    console.log("Sending metrics...")
+    eventManager.sendEvent(poolId, Date.now(), "Price Updates", priceUpdatesPerTenSeconds);
+    priceUpdatesPerTenSeconds = 0
+    eventManager.sendEvent(poolId, Date.now(), "Client Holding Updates", clientHoldingUpdatesPerTenSeconds);
+    clientHoldingUpdatesPerTenSeconds = 0
+    eventManager.sendEvent(poolId, Date.now(), "Market Value Updates", marketValueUpdatesPerTenSeconds);
+    marketValueUpdatesPerTenSeconds = 0
+    eventManager.send1SecondCPUUsage(poolId)
+    eventManager.sendMemoryUsage(poolId)
+    console.log("Metrics sent!")
+}, 10000)
 
 await consumer.run({
     eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
@@ -54,13 +81,17 @@ await consumer.run({
         const isPriceUpdate = parsedMsg.price != undefined;
 
         if (isPriceUpdate) {
+            priceUpdatesPerTenSeconds ++;
             eventManager.sendEvent(poolId, eventId, "Price update handler start", Date.now());
-            handlePriceUpdate(priceMap, holdingsMap, JSON.parse(message.value), producer);
+            const marketValueUpdates = handlePriceUpdate(priceMap, holdingsMap, JSON.parse(message.value), producer);
             eventManager.sendEvent(poolId, eventId, "Price update handler end", Date.now());
+            marketValueUpdatesPerTenSeconds += marketValueUpdates
         } else if(isClientHoldingUpdate) {
+            clientHoldingUpdatesPerTenSeconds ++;
             eventManager.sendEvent(poolId, eventId, "Client holdings update handler start", Date.now());
             handleClientHoldingUpdate(priceMap, holdingsMap, JSON.parse(message.value), producer);
             eventManager.sendEvent(poolId, eventId, "Client holdings update handler end", Date.now());
+            marketValueUpdatesPerTenSeconds ++;
         } else {
             console.error("Unrecognized message: ", message)
         }

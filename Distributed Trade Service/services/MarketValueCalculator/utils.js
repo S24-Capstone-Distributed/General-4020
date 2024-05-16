@@ -61,6 +61,7 @@ export async function handlePriceUpdate(priceMap, holdingsMap, message, kafkapro
     };
     if (holdingsMap[message.ticker]) {
         console.log(holdingsMap[message.ticker])
+        let marketValueUpdates = 0
         Object.values(holdingsMap[message.ticker]).forEach(async (holding) => {
             console.log(holding)
             const data = {
@@ -68,14 +69,17 @@ export async function handlePriceUpdate(priceMap, holdingsMap, message, kafkapro
                 ticker: message.ticker,
                 quantity: holding.quantity,
                 price: message.price,
-                "market value": holding.quantity * message.price,
+                market_value: holding.quantity * message.price,
                 price_last_updated: message.timestamp,
                 holding_last_updated: holding.last_updated,
             };
             console.log("Publish to MVC: ", data);
             await publishMarketValue(kafkaproducer, data);
+            marketValueUpdates++;
         });
-    }
+        return marketValueUpdates
+    } 
+    return 0
 }
 
 export async function handleClientHoldingUpdate(priceMap, holdingsMap, message, kafkaproducer) {
@@ -96,7 +100,7 @@ export async function handleClientHoldingUpdate(priceMap, holdingsMap, message, 
         ticker: message.ticker,
         quantity: message.quantity,
         price: priceMap[message.ticker].price,
-        "market value": message.quantity * priceMap[message.ticker].price,
+        market_value: message.quantity * priceMap[message.ticker].price,
         price_last_updated: priceMap[message.ticker].timestamp,
         holding_last_updated: message.last_updated,
     };
@@ -109,7 +113,7 @@ async function publishMarketValue(producer, data) {
         console.log("Attemting to publish message to kafka", data);
         await producer.send({
             topic: process.env.MARKET_VALUE_TOPIC,
-            messages: [{ key: data.clientId + data.ticker, value: JSON.stringify(data) }],
+            messages: [{ key: data.clientId + "_" + data.ticker, value: JSON.stringify(data) }],
         });
         console.log("Sent message successfully");
     } catch (error) {

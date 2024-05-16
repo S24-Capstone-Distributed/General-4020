@@ -196,15 +196,26 @@ public class TransactionImpl extends RepositoryPatternBase {
 
         // add stock to clientPortfolio,
         try {
-            UpdateResult result = clientPortfolio.updateOne(Filters.and(
+            // Assuming clientPortfolio is already defined and initialized MongoCollection<Document>
+            UpdateResult result = clientPortfolio.updateOne(
+                    Filters.and(
                             Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
-                            Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())),
-                    Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), +tx.getStockAmount()));
-            //insert a new row if necessary
-            if (result.getModifiedCount() != 1){
+                            Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())
+                    ),
+                    Updates.combine(
+                            Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), tx.getStockAmount()),
+                            Updates.set("lastUpdated", new Date()),  // Set the last updated time to the current date and time
+                            Updates.set("timestamp", new Date())
+                    )
+            );
+
+            // Insert a new row if necessary
+            if (result.getModifiedCount() == 0) {  // Check if no documents were updated
                 Document row = new Document(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID())
-                                .append(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())
-                                        .append(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), tx.getStockAmount());
+                        .append(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())
+                        .append(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), tx.getStockAmount())
+                        .append("lastUpdated", new Date())
+                        .append("timestamp", new Date());  // Add a last updated field with the current date and time
                 clientPortfolio.insertOne(row);
             }
         }catch (MongoWriteException e) {
@@ -281,10 +292,17 @@ public class TransactionImpl extends RepositoryPatternBase {
 
         //remove from clientPortfolio, autofails if any issues
         try{
-            clientPortfolio.updateOne(Filters.and(
+            clientPortfolio.updateOne(
+                    Filters.and(
                             Filters.eq(MongoDBSchema.KeyNames.CLIENT_ID.getKeyName(), tx.getClientID()),
-                            Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())),
-                    Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), -tx.getStockAmount()));
+                            Filters.eq(MongoDBSchema.KeyNames.TICKER.getKeyName(), tx.getTicker())
+                    ),
+                    Updates.combine(
+                            Updates.inc(MongoDBSchema.KeyNames.QUANTITY.getKeyName(), -tx.getStockAmount()),  // Decrement the quantity
+                            Updates.set("lastUpdated", System.currentTimeMillis()),  // Set the last updated time as current time in ms
+                            Updates.set("timestamp", System.currentTimeMillis())  // Set the timestamp field as current time in ms
+                    )
+            );
         }catch (MongoWriteException e) {
             logger.info("Insufficient stock owned. FAIL\n");
             return false;

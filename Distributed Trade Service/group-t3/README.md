@@ -1,6 +1,6 @@
 # Real-time prices + system observability
 
-**Team Members:** [Eli Levy](mailto:emlevy1@mail.yu.edu), [Oze Botach](mailto:obotach@mail.yu.edu), [Shmuel Newmark](mailto:snewmark@mail.yu.edu)
+**Team Members:** [Eli Levy](mailto:emlevy1@mail.yu.edu), [Oze Botach](mailto:oze@obotach.com), [Shmuel Newmark](mailto:snewmark@mail.yu.edu)
 
 ## Project Plan
 

@@ -46,6 +46,11 @@ Considered Alternatives: Alternatives such as GStreamer, HandBrake, and Libav we
 Reason for Use: MongoDB was chosen for its simplicity and ease of management, aligning well with the project timeline. Its JSON-based data storage also aligned with the type of data being stored, and a pre-made Docker image was available for convenient deployment.
 Considered Alternatives: Alternatives such as Apache Cassandra, Apache HBase, and Google Cloud Bigtable were considered, but their steeper learning curves and increased management complexity were deemed less suitable for the project's requirements.
 
+## HAProxy
+
+Reason for Use: HAProxy was chosen for its high performance, reliability, and flexibility in load balancing and proxying tasks. It excels in distributing network traffic efficiently across multiple servers, ensuring optimal resource utilization and high availability. HAProxy's extensive features, including advanced load balancing algorithms, SSL termination, and health checking, made it the preferred choice for managing the project's load balancing needs.
+Considered Alternatives: Nginx and Apache Traffic Server were considered due to their capabilities in load balancing and proxying. However, HAProxy's specific design for high availability and load balancing, combined with its mature ecosystem and community support, led to its selection.
+
 
 
 

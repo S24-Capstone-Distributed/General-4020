@@ -5,10 +5,12 @@
 ## Java
 
 - **Reason for Use:**  Familiarity and ease of use with JUnit, Maven, etc.
+- **Alternative:** We originally planned to use Python as it is simple to use in general and for making an S3 API, but we opted for Java in the end as overall our team was more familiar with it and Spring Boot is a more powerful tool than Flask. As well as the other teams were using Java and we wanted to be using the same language throughout the system.
 
 ## Spring boot
 
 - **Reason for Use:** Spring Boot, a framework on top of Java, was utilized for its robust ecosystem and extensive libraries, which expedite development tasks, particularly in web application development.
+- **Alternative:** Flask was our original plan but the power of Spring Boot led us to use Java and the Spring Boot framework.
 
 ## JUnit
 

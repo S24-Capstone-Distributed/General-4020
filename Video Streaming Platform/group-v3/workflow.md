@@ -3,7 +3,7 @@
 
 
 ## Streaming
-![video streaming](https://github.com/S24-Capstone-Distributed/General-4020/assets/75939187/57918d7a-bfd5-4531-821c-6efdeb72e1fb)
+![VideoStreaming](https://github.com/S24-Capstone-Distributed/General-4020/assets/75939187/e221bf11-71d5-4f4e-aa16-17f292c3cc79)
 
 
 ## Manifest Service

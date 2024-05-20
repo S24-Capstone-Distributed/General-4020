@@ -14,7 +14,7 @@
 
 ## Overview
 
-_Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application._
+> _Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application._
 
 The goal of our project is to implement a distributed object storage system (similar to <a href="https://aws.amazon.com/s3/">Amazon S3</a>). The system will allow for highly available, and efficient distributed storage and retrieval of objects.
 

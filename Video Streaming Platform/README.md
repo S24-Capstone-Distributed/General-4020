@@ -5,7 +5,8 @@ Our platform offers a robust video streaming solution designed for the efficient
 ## Project Groups
 
 1. **Video upload and storage** - _a highly available and efficient distributed object storage system._
-   - Team Members: [Azriel Bachrach](mailto:asbachr1@mail.yu.edu), [Yaakov Baker](mailto:ybaker@mail.yu.edu), [Max Friedman](mailto:mfriedm8@mail.yu.edu)
+   - Team Members:  [Azriel Bachrach](https://www.linkedin.com/in/azriel-bachrach/), [Yaakov Baker](https://www.linkedin.com/in/yaakovbaker01/), [Max Friedman](https://www.linkedin.com/in/max-friedman8/)
+
    - [Overview](./group-v1/README.md)
    - [Scope and Use Cases](./group-v1/scope.md)
    - [Distributed System Challenges](./group-v1/challenges.md)

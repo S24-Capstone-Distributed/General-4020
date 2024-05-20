@@ -218,7 +218,3 @@ Monitors system performance metrics to ensure optimal operation and identify bot
 - System administrators have access to detailed reports and alerts.
 - Prompt identification and resolution of potential issues, ensuring high system availability and performance.
 
-
-## Real-time prices
-_provide real-time streaming prices and cache_
-

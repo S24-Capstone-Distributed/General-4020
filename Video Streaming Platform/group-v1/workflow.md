@@ -3,7 +3,7 @@
 *Display workflow diagrams for each of your supported use cases. Link to the scope and architecture documents where appropriate.*
 
 The Data Router node and its logic are split into its three main jobs here:
-1. API Endpoint
+1. API Gateway (Endpoint)
 2. Data Routing
 3. Placement Service
 

@@ -7,7 +7,6 @@ Dealing with distributed systems introduces several complexities and challenges 
 ### 1. **Fault Detection and Recovery**
    - In a distributed environment, components can fail transiently or permanently. This includes critical parts such as data storage, computation nodes, or communication links.
    - It's essential to quickly detect failures and recover from them without losing data or duplicating tasks. This requires robust monitoring and automated recovery mechanisms.
-   - SELF AS WELL
 
 ### 2. **Autoscaling**
    - As demand fluctuates, the system should dynamically adjust its capacity to handle the load efficiently. This involves scaling out (adding more resources) or scaling in (removing unnecessary resources) based on current workload and resource utilization.

@@ -10,4 +10,4 @@
 
 ## Observability
 
-![Observability](https://raw.githubusercontent.com/S24-Capstone-Distributed/General-4020/main/Distributed%20Trade%20Service/group-t3/assets/bpmn/observ.png?token=GHSAT0AAAAAACPL2PVR64CFIDJ2URFZDOH4ZSGJK3A)
+![Observability](assets\bpmn\observ.png)

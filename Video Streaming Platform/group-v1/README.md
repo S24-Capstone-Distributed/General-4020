@@ -1,6 +1,6 @@
 # Video upload and storage
 
-**Team Members:** [Azriel Bachrach](mailto:asbachr1@mail.yu.edu), [Yaakov Baker](mailto:ybaker@mail.yu.edu), [Max Friedman](mailto:mfriedm8@mail.yu.edu)
+**Team Members:** [Azriel Bachrach](https://www.linkedin.com/in/azriel-bachrach/), [Yaakov Baker](https://www.linkedin.com/in/yaakovbaker01/), [Max Friedman](https://www.linkedin.com/in/max-friedman8/)
 
 ## Project Plan
 

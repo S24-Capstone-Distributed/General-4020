@@ -32,7 +32,7 @@
 
 ## Apache Zookeeper
 
-- **Reason for Use:** Zookeeper allowed us to keep track of which storage nodes are alive and notify us when a node joins the cluster or when a node leaves/fails. 
+- **Reason for Use:** Zookeeper serves as a node manager. It allows us to keep track of which storage nodes are alive and notify us when a node joins the cluster or when a node leaves/fails. 
 - **Considered Alternatives:** Implementing this ourselves.
 
 ## Postgres

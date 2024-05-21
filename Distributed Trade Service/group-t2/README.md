@@ -9,6 +9,9 @@
 - [Workflow Diagrams (BPMN)](workflow.md)
 - [Software Architecture Diagrams (C4)](architecture.md)
 - [Tools & Technologies](technologies.md)
+- [Installation Instructions](installation.md)
+- [API Documentation](api.md)
+
 
 ## Overview
 

@@ -4,7 +4,7 @@
 **Docker for Container Management:**
 Docker will be used to manage the deployment and operation of our applications, ensuring that each component runs in a consistent environment. This approach simplifies the deployment process, improves scalability, and allows for easier maintenance and updates. Docker was chosen for its widespread adoption and the ease with which it allows us to manage microservices.
 
-**HAProxy for Client Routing:**:
+**HAProxy for Client Routing:**
 Chosen for its reliability, flexibility, and powerful load balancing capabilities, HAProxy is the cornerstone of our traffic management system. HAProxy distributes incoming requests across our servers using a round-robin algorithm, ensuring an even load and preventing any single server from becoming a bottleneck. The "check" feature in HAProxy monitors the health of our servers in real-time, allowing for automatic failover and enhanced uptime. Additionally, HAProxy routes traffic based on URL patterns, providing precise control over request handling and optimizing resource utilization. HAProxy was selected over other load balancers for its proven performance in high-traffic environments and its extensive feature set tailored to our needs.
 
 **Hazelcast for Coordination:**

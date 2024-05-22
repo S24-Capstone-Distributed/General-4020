@@ -1,32 +1,56 @@
 ---
 services:
+
+  # Zookeeper, Kafka, and Kafka-ui only needed when running locally
+
+
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:latest
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #     ZOOKEEPER_TICK_TIME: 2000
+  #   networks:
+  #     - trade-server-network
+
   # kafka:
-  #   #image: ghcr.io/s24-capstone-distributed/tradeserverkafka:latest
   #   image: confluentinc/cp-kafka:latest
   #   depends_on:
   #     - zookeeper
   #   ports:
   #     - 9092:9092
   #   environment:
-  #     KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
   #     KAFKA_BROKER_ID: 1
   #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://192.168.8.144:9092
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
   #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
   #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
   #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #     KAFKA_CREATE_TOPICS: "MarketValueTopic:1:1"
+  #     KAFKA_CREATE_TOPICS: "MarketValueTopic:3:1:compact,ObservabilityTopic:1:1"
   #   networks:
-  #     - ${NETWORK}
+  #     - trade-server-network
 
-  hazelcast:
-    build: ./HazelCast
-    environment:
-      - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-    expose:
-      - 5701
-    networks:
-      - ${NETWORK}
+  # hazelcast:
+  #   build: ./HazelCast
+  #   environment:
+  #     - HAZELCAST_CLUSTER_NAME=t1_hazelcast
+  #     - AVAILABLE_SERVERS=availableServers
+  #   expose:
+  #     - 5701
+  #   networks:
+  #     - trade-server-network
+
+  # kafka-ui:
+  #   container_name: kafka-ui
+  #   image: provectuslabs/kafka-ui:latest
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - kafka
+  #   environment:
+  #     DYNAMIC_CONFIG_ENABLED: 'true'
+  #   networks:
+  #     - trade-server-network
+  
     
   blotterservice1:
     build: ./BlotterService
@@ -35,18 +59,21 @@ services:
       - TCP_PORT=8012
       - CLIENT_CONNECTIONS_MAP=clients
       - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-      - HAZELCAST_SERVERS=hazelcast:5701
-      - MONGO_CONNECTION=mongodb://${MONGO_IP}:${MONGO_PORT}
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
+      - MONGO_CONNECTION=${MONGO_CONNECT}
       - MONGO_DB_NAME=tradeServer
       - MONGO_COLLECTION=marketValue
       - HOSTNAME=blotterservice1
-      - EXTERNAL_HOST=${CLIENT_ACCESS_HOST} #Refer to infrastructure machine
-      - GRAFANA_URL=${GRAFANA_HOST}:${GRAFANA_PORT} # this will be changed
+      - CLIENT_ACCESS_HOST=${CLIENT_ACCESS_HOST} #Refer to infrastructure machine
+      - KAFKA_URL=${KAFKA_URL} # this will be changed
+      - OBSERVABILITY_EVENTS_TOPIC=ObservabilityTopic
+      - RUN_METRICS=${RUN_METRICS}
+      - RUN_MONGO=${RUN_MONGO}
     depends_on:
-      #- kafka
+      # - kafka
       - hazelcast
     networks:
-      - ${NETWORK}
+      - trade-server-network
     ports:
       - 8010:8010
     expose:
@@ -60,81 +87,112 @@ services:
       - TCP_PORT=8022
       - CLIENT_CONNECTIONS_MAP=clients
       - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-      - HAZELCAST_SERVERS=hazelcast:5701
-      - MONGO_CONNECTION=mongodb://${MONGO_IP}:${MONGO_PORT}
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
+      - MONGO_CONNECTION=${MONGO_CONNECT}
       - MONGO_DB_NAME=tradeServer
       - MONGO_COLLECTION=marketValue
       - HOSTNAME=blotterservice2
-      - EXTERNAL_HOST=${CLIENT_ACCESS_HOST} #Refer to infrastructure machine
-      - GRAFANA_URL=${GRAFANA_HOST}:${GRAFANA_PORT} # this will be changed
+      - CLIENT_ACCESS_HOST=${CLIENT_ACCESS_HOST} #Refer to infrastructure machine
+      - KAFKA_URL=${KAFKA_URL} # this will be changed
+      - OBSERVABILITY_EVENTS_TOPIC=ObservabilityTopic
+      - RUN_METRICS=${RUN_METRICS}
+      - RUN_MONGO=${RUN_MONGO}
     depends_on:
       # - kafka
       - hazelcast
     networks:
-      - ${NETWORK}
+      - trade-server-network
     ports:
       - 8020:8020
     expose:
       - 8022
     restart: always
 
-  blotterservice3:
-    build: ./BlotterService
-    environment:
-      - HTTP_PORT=8030
-      - TCP_PORT=8032
-      - CLIENT_CONNECTIONS_MAP=clients
-      - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-      - HAZELCAST_SERVERS=hazelcast:5701
-      - MONGO_CONNECTION=mongodb://${MONGO_IP}:${MONGO_PORT}
-      - MONGO_DB_NAME=tradeServer
-      - MONGO_COLLECTION=marketValue
-      - HOSTNAME=blotterservice3
-      - EXTERNAL_HOST=${CLIENT_ACCESS_HOST} #Refer to infrastructure machine
-      - GRAFANA_URL=${GRAFANA_HOST}:${GRAFANA_PORT} # this will be changed
+  cdrs1:
+    build: ./ClientDataRoutingService
     depends_on:
       # - kafka
       - hazelcast
-    networks:
-      - ${NETWORK}
-    ports:
-      - 8030:8030
-    expose:
-      - 8032
-    restart: always
-
-  cdrs:
-    build: ./ClientDataRoutingService
-    depends_on:
-     # - kafka
-      - hazelcast
       - blotterservice1
       - blotterservice2
-      - blotterservice3
     environment:
-      - BOOTSTRAP_SERVERS=${KAFKA_HOST}:${KAFKA_PORT}
+      - BOOTSTRAP_SERVERS=${KAFKA_URL}
       - MARKET_VALUE_TOPIC=MarketValueTopic
       - HAZELCAST_CLUSTER_NAME=t1_hazelcast
       - HAZELCAST_INSTANCE_NAME=CDRS_1
-      - HAZELCAST_SERVERS=hazelcast:5701
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
       - CLIENT_CONNECTIONS_MAP=clients
     networks:
-      - ${NETWORK}
+      - trade-server-network
+
+  cdrs2:
+    build: ./ClientDataRoutingService
+    depends_on:
+      # - kafka
+      - hazelcast
+      - blotterservice1
+      - blotterservice2
+    environment:
+      - BOOTSTRAP_SERVERS=${KAFKA_URL}
+      - MARKET_VALUE_TOPIC=MarketValueTopic
+      - HAZELCAST_CLUSTER_NAME=t1_hazelcast
+      - HAZELCAST_INSTANCE_NAME=CDRS_2
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
+      - CLIENT_CONNECTIONS_MAP=clients
+    networks:
+      - trade-server-network
+    
+  cdrs3:
+    build: ./ClientDataRoutingService
+    depends_on:
+      # - kafka
+      - hazelcast
+      - blotterservice1
+      - blotterservice2
+    environment:
+      - BOOTSTRAP_SERVERS=${KAFKA_URL}
+      - MARKET_VALUE_TOPIC=MarketValueTopic
+      - HAZELCAST_CLUSTER_NAME=t1_hazelcast
+      - HAZELCAST_INSTANCE_NAME=CDRS_3
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
+      - CLIENT_CONNECTIONS_MAP=clients
+    networks:
+      - trade-server-network
+
+  cdrs4:
+    build: ./ClientDataRoutingService
+    depends_on:
+      # - kafka
+      - hazelcast
+      - blotterservice1
+      - blotterservice2
+    environment:
+      - BOOTSTRAP_SERVERS=${KAFKA_URL}
+      - MARKET_VALUE_TOPIC=MarketValueTopic
+      - HAZELCAST_CLUSTER_NAME=t1_hazelcast
+      - HAZELCAST_INSTANCE_NAME=CDRS_4
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
+      - CLIENT_CONNECTIONS_MAP=clients
+    networks:
+      - trade-server-network
 
   gateway1:
     build: ./Gateway/
     environment:
       - port=6010
       - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-      - HAZELCAST_SERVERS=hazelcast:5701
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
       - CLIENT_CONNECTIONS_MAP=clients
-      - GRAFANA_URL=${GRAFANA_HOST}:${GRAFANA_PORT}
+      - KAFKA_URL=${KAFKA_URL} # this will be changed
+      - OBSERVABILITY_EVENTS_TOPIC=ObservabilityTopic
+      - AVAILABLE_SERVERS=availableServers
+      - RUN_METRICS=${RUN_METRICS}
     expose:
       - 6010:6010
     depends_on:
       - hazelcast
     networks:
-      - ${NETWORK}
+      - trade-server-network
     restart: always
 
   gateway2:
@@ -142,54 +200,29 @@ services:
     environment:
       - port=6020
       - HAZELCAST_CLUSTER_NAME=t1_hazelcast
-      - HAZELCAST_SERVERS=hazelcast:5701
+      - HAZELCAST_SERVERS=${HAZELCAST_CLUSTER_SERVERS}
       - CLIENT_CONNECTIONS_MAP=clients
-      - GRAFANA_URL=${GRAFANA_HOST}:${GRAFANA_PORT}
+      - KAFKA_URL=${KAFKA_URL} # this will be changed
+      - OBSERVABILITY_EVENTS_TOPIC=ObservabilityTopic
+      - AVAILABLE_SERVERS=availableServers
+      - RUN_METRICS=${RUN_METRICS}
     depends_on:
       - hazelcast
     expose:
       - 6020:6020
     networks:
-      - ${NETWORK}
+      - trade-server-network
     restart: always
 
   haproxy:
     build: ./HAProxy/
     networks:
-      - ${NETWORK}
+      - trade-server-network
     depends_on:
      - gateway1
      - gateway2
     ports:
       - 80:80
 
-  #TESTING PURPOSES ONLY, TO BE REMOVED
-  # producer:
-  #   build: 
-  #     context: ./ClientDataRoutingService/
-  #     dockerfile: producer.Dockerfile
-  #   depends_on:
-  #     - kafka
-  #     - haproxy
-  #   environment:
-  #     - BOOTSTRAP_SERVERS=kafka:29092
-  #     - MARKET_VALUE_TOPIC=MarketValueTopic
-  #     - CLIENT_ID=17
-  #   networks:
-  #     - ${NETWORK}
-
-
-  # kafka-ui:
-  #   container_name: kafka-ui
-  #   image: provectuslabs/kafka-ui:latest
-  #   ports:
-  #     - 8080:8080
-  #   environment:
-  #     DYNAMIC_CONFIG_ENABLED: 'true'
-  #   # volumes:
-  #   #   - .\config.yml:/etc/kafkaui/dynamic_config.yaml
-  #   networks:
-  #     - ${NETWORK}
-  
 networks:
-  't1-network':
+  trade-server-network:

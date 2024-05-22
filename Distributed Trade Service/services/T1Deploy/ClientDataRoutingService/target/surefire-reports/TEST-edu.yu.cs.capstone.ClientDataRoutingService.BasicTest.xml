@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" time="0.089" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" time="0.116" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="17.0.4.1+1-LTS-2"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17.0.4.1\bin"/>
-    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Tuvia Goldstein\Documents\edu\yu\cs\GitHub\General-4020\Distributed Trade Service\services\T1Deploy\ClientDataRoutingService"/>
+    <property name="maven.multiModuleProjectDirectory" value="C:\Users\Tuvia Goldstein\Documents\edu\yu\cs\GitHub\T1\ClientDataRoutingService"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="C:\Users\Tuvia Goldstein\Documents\edu\yu\cs\GitHub\General-4020\Distributed Trade Service\services\T1Deploy\ClientDataRoutingService"/>
+    <property name="user.dir" value="C:\Users\Tuvia Goldstein\Documents\edu\yu\cs\GitHub\T1\ClientDataRoutingService"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="java.runtime.version" value="17.0.4.1+1-LTS-2"/>
     <property name="os.arch" value="amd64"/>
@@ -61,6 +61,6 @@
     <property name="sun.stdout.encoding" value="cp437"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" name="threadPoolTest" time="0.004"/>
-  <testcase classname="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" name="gsonTest" time="0.085"/>
+  <testcase classname="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" name="threadPoolTest" time="0.008"/>
+  <testcase classname="edu.yu.cs.capstone.ClientDataRoutingService.BasicTest" name="gsonTest" time="0.108"/>
 </testsuite>

@@ -12,4 +12,9 @@
 
 ## Overview
 
-_Provide a short introduction, summary and functional overview of what your project group is trying to achieve and implement. Give the context within the greater system and application._
+The goal of our group is to provide users with a live blotter displaying stock updates for the selected client. This is accomplished efficiently and reliably by carefully routing the incoming data to certain servers and colocating users accessing the same client to stream their updates from the same server.
+
+We interface with Group 2 by
+routing incoming requests for client registration and stock trading to their endpoints.
+
+We interface with Group 3 by comsuming incoming data containing the updated market value for each stock each client holds. This data is then displayed to the end user.

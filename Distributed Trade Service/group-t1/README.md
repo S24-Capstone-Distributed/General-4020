@@ -10,6 +10,7 @@
 - [Software Architecture Diagrams (C4)](architecture.md)
 - [Tools & Technologies](technologies.md)
 - [Code](../services/T1Deploy/)
+- [User Guide](user_guide.md)
 
 ## Overview
 

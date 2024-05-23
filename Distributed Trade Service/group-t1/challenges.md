@@ -7,9 +7,8 @@
 - The distributed nature of the server components increases the complexity of detecting and recovering from failures.
 
 **Approach:**
-- **Hazelcast Integration:** Implement a distributed set with Hazelcast to monitor all service nodes and their availability, enhancing the system's ability to detect and manage node status dynamically.
-- **MongoDB Replica Sets:** Utilize MongoDB’s replica sets to provide automated recovery mechanisms, ensuring data redundancy and failover capabilities.
-- **Dynamic Gateway Rerouting:** Enhance the Gateway to dynamically detect node failures and reroute messages, minimizing disruption to data flow and maintaining consistent service delivery.
+- **Hazelcast Integration:** Use Hazelcast to monitor all service nodes and their availability, enhancing the system's ability to detect and manage node status dynamically. Utilize Hazelcast’s event listeners to keep track of available nodes, ensuring the system remains robust against node failures
+- **Dynamic Gateway Rerouting:** Enhance the Gateway to dynamically detect node failures and reroute the client to the appropriate blotter service node, minimizing disruption to data flow and maintaining consistent service delivery.
 
 ## 2. Autoscaling
 
@@ -27,24 +26,14 @@
 - Managing the distribution of messages within the Client Data Routing Service (CDRS) to ensure even workload distribution and optimal system performance.
 
 **Approach:**
-- **CDRS Deployment:** Deploy CDRS nodes to evenly distribute incoming streams and requests across Kafka brokers and application servers, enhancing performance and resource utilization.
+- **CDRS Deployment:**  Deploy CDRS nodes to filter and route Kafka messages appropriately, ensuring even distribution across application servers. This helps in balancing the workload and enhancing overall system performance
 - **Intelligent Routing Mechanisms:** Implement and continually refine intelligent routing mechanisms in CDRS, adjusting load distribution based on real-time assessments of node capacities and response times.
 
 ## 4. Real-Time Updates
 
 **Challenges:**
 - Ensuring that real-time updates via server-sent events are delivered promptly and reliably, without significant delays.
-- Managing the connection and data transmission overhead involved with maintaining persistent connections for real-time updates.
+- Managing the connection and data transmission overhead involved with maintaining persistent connections for real-time updates
 
 **Approach:**
-- **Network and Data Optimization:** Optimize network configurations and utilize efficient data encoding formats to reduce latency and bandwidth usage, ensuring faster and more reliable data delivery.
-
-## 5. Persistence
-
-**Challenges:**
-- Guaranteeing data consistency and durability in MongoDB, particularly in high-throughput environments such as those involving streaming data with Kafka.
-- Managing the growth of data volume and ensuring efficient data retrieval and storage operations.
-
-**Approach:**
-- **Replication and Sharding:** Leverage MongoDB’s built-in replication and sharding features to enhance data availability and effectively distribute workload across multiple nodes.
-- **Regular Backups and Data Validation:** Implement routine backup procedures and data validation routines to maintain data integrity and enable quick recovery from any potential data loss scenarios.
+- **Optimized Real-Time Data Flow:** Focus on streamlining the data flow through efficient management of server-sent events, ensuring real-time updates are delivered efficiently.
